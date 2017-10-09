@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 
         /*teste*/
         FirebaseInteracao firebase = new FirebaseInteracao();
-        firebase.inserirClasse("Usuário");
+        firebase.inserirClasse("Alunos");
         /*teste*/
 
         entrar.setOnClickListener(new View.OnClickListener() {
