@@ -10,8 +10,9 @@ import android.widget.Toast;
  */
 
 public class Alerta {
-    String titulo,mensagem;
-    Activity activity;
+    private String titulo,mensagem;
+    private Activity activity;
+    private boolean retorno;
 
     public Alerta(String titulo, String mensagem,Activity activity) {
         this.titulo = titulo;
@@ -43,8 +44,15 @@ public class Alerta {
         this.activity = activity;
     }
 
-    public void defineAlerta() {
+    public boolean getRetorno() {
+        return retorno;
+    }
 
+    public void setRetorno(boolean retorno) {
+        this.retorno = retorno;
+    }
+
+    public void defineAlerta() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setTitle(getTitulo());
@@ -54,12 +62,14 @@ public class Alerta {
         builder.setPositiveButton("Positivo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 Toast.makeText(getActivity(), "Positivo = " +arg1, Toast.LENGTH_SHORT).show();
+                setRetorno(true);
             }
         });
 
         builder.setNegativeButton("Negativo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 Toast.makeText(getActivity(), "negativo=" + arg1, Toast.LENGTH_SHORT).show();
+                setRetorno(false);
             }
         });
 
@@ -67,7 +77,8 @@ public class Alerta {
         alerta.show();
     }
 
-    public void exibir(){
+    public boolean exibir(){
         defineAlerta();
+        return getRetorno();
     }
 }
