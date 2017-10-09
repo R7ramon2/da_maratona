@@ -43,6 +43,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        senha_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focus) {
+                String textoInputOri = senha_input.getText().toString();
+                if(focus){
+                    if(textoInputOri.equals("Senha")){
+                        senha_input.setText("");
+                    }
+                }
+            }
+        });
+
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,8 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this,"Login ou senha não informados",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Alerta alerta = new Alerta("Olá,"+login,"Avalie o nosso app");
-                    alerta.exibir(LoginActivity.this);
+                    Alerta alerta = new Alerta("Olá,"+login,"Avalie o nosso app",LoginActivity.this);
+                    alerta.exibir();
                     //TODO implementar acesso ao usuário (Firebase)
                 }
             }

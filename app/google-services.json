@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "736370595583",
+    "firebase_url": "https://damaratonaunicap.firebaseio.com",
+    "project_id": "damaratonaunicap",
+    "storage_bucket": "damaratonaunicap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736370595583:android:f967f0ea2d843e54",
+        "android_client_info": {
+          "package_name": "com.dev.da.maratona"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736370595583-1u8oibimdhp38obri992r7388cl0lvie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev.da.maratona",
+            "certificate_hash": "9d9fe066bf517ca578cb0424dd119d055f4125fa"
+          }
+        },
+        {
+          "client_id": "736370595583-d50fcfjabve8dioe36hd61ve88blfb6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNjIC0VAOqIhfiLgT9wIvxnAPljFq4ubs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736370595583-d50fcfjabve8dioe36hd61ve88blfb6l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,11 +11,12 @@ import android.widget.Toast;
 
 public class Alerta {
     String titulo,mensagem;
+    Activity activity;
 
-
-    public Alerta(String titulo, String mensagem) {
+    public Alerta(String titulo, String mensagem,Activity activity) {
         this.titulo = titulo;
         this.mensagem = mensagem;
+        this.activity = activity;
     }
 
     public String getTitulo() {
@@ -34,9 +35,17 @@ public class Alerta {
         this.mensagem = mensagem;
     }
 
-    public void exibir(final Activity activity) {
+    public Activity getActivity() {
+        return activity;
+    }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public void defineAlerta() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setTitle(getTitulo());
 
@@ -44,17 +53,21 @@ public class Alerta {
 
         builder.setPositiveButton("Positivo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(activity, "Positivo = " +arg1, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Positivo = " +arg1, Toast.LENGTH_SHORT).show();
             }
         });
 
         builder.setNegativeButton("Negativo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(activity, "negativo=" + arg1, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "negativo=" + arg1, Toast.LENGTH_SHORT).show();
             }
         });
 
         AlertDialog alerta = builder.create();
         alerta.show();
+    }
+
+    public void exibir(){
+        defineAlerta();
     }
 }
