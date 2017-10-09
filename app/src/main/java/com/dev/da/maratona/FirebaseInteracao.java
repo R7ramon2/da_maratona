@@ -21,7 +21,6 @@ public class FirebaseInteracao {
 
     public void inserirClasse(String tabela, String matricula, Object obj) {
         dadosReferencia.child(tabela).child(matricula).setValue(obj);
-        //teste
     }
     
 }
