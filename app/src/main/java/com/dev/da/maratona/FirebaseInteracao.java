@@ -22,5 +22,32 @@ public class FirebaseInteracao {
     public void inserirClasse(String tabela, String matricula, Object obj) {
         dadosReferencia.child(tabela).child(matricula).setValue(obj);
     }
-    
+
+    public void inserirColuna(String tabela, String matricula, String coluna, String valor) {
+        dadosReferencia.child(tabela).child(matricula).child(coluna).setValue(valor);
+    }
+
+    public boolean atualizarClasse(final String tabela, final String matricula, final Object obj) {
+        DatabaseReference ref = dadosReferencia.child(tabela).child(matricula);
+        final boolean[] result = new boolean[1];
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    result[0] = true;
+                    dadosReferencia.child(tabela).child(matricula).setValue(obj);
+                }
+                else {
+                    result[0] = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i("Firebase","Error");
+            }
+        });
+        return result[0];
+    }
+
 }
