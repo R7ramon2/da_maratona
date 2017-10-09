@@ -6,5 +6,5 @@ package com.dev.da.maratona;
 
 public class FirebaseInteracao {
 
-    
+
 }
