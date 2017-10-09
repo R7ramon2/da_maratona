@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseInteracao {
     private DatabaseReference dadosReferencia = FirebaseDatabase.getInstance().getReference();
+    private boolean result;
 
 
     public void inserirClasse(String tabela, String matricula, Object obj) {
@@ -29,16 +30,16 @@ public class FirebaseInteracao {
 
     public boolean atualizarClasse(final String tabela, final String matricula, final Object obj) {
         DatabaseReference ref = dadosReferencia.child(tabela).child(matricula);
-        final boolean[] result = new boolean[1];
+
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    result[0] = true;
+                    result = true;
                     dadosReferencia.child(tabela).child(matricula).setValue(obj);
                 }
                 else {
-                    result[0] = false;
+                    result = false;
                 }
             }
 
@@ -47,7 +48,30 @@ public class FirebaseInteracao {
                 Log.i("Firebase","Error");
             }
         });
-        return result[0];
+        return result;
+    }
+
+    public boolean atualizarCampo(final String tabela,final String matricula,final String campo,final String valor){
+        DatabaseReference ref = dadosReferencia.child(tabela).child(matricula).child(campo);
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    dadosReferencia.child(tabela).child(matricula).child(campo).setValue(valor);
+                    result = true;
+                }
+                else {
+                    result = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i("Firebase","Error");
+            }
+        });
+        return result;
     }
 
 }
