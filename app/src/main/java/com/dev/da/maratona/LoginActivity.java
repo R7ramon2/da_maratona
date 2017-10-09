@@ -55,11 +55,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*teste*/
-        FirebaseInteracao firebase = new FirebaseInteracao();
-        firebase.inserirClasse("Alunos");
-        /*teste*/
-
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
