@@ -15,6 +15,15 @@ import com.google.firebase.database.ValueEventListener;
 public class FirebaseInteracao {
     private DatabaseReference dadosReferencia = FirebaseDatabase.getInstance().getReference();
     private boolean result = true;
+    private String dadoRetornado;
+
+    public String getDadoRetornado() {
+        return dadoRetornado;
+    }
+
+    public void setDadoRetornado(String dadoRetornado) {
+        this.dadoRetornado = dadoRetornado;
+    }
 
     public boolean getResult() {
         return result;
@@ -78,4 +87,21 @@ public class FirebaseInteracao {
         return getResult();
     }
 
+    public void selecionarDados(final String tabela, final String matricula, final String retorno){
+        DatabaseReference ref = dadosReferencia.child(tabela).child(matricula);
+        String valor;
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    setDadoRetornado(dataSnapshot.child(retorno).getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
