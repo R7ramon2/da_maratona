@@ -9,8 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText login_input,senha_input;
-    Button entrar;
+    private EditText login_input, senha_input;
+    private Button entrar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,17 +30,25 @@ public class LoginActivity extends AppCompatActivity {
                 String login = login_input.getText().toString();
                 String senha = senha_input.getText().toString();
 
-                if(login.equals("")){
-                    Toast.makeText(LoginActivity.this,"Digite o login",Toast.LENGTH_SHORT).show();
-                }
-                else if(senha.equals("")){
-                    Toast.makeText(LoginActivity.this, "Digite a senha.", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(LoginActivity.this, "Login efetuado!", Toast.LENGTH_SHORT).show();
-                    //TODO implementar acesso ao usuário (Firebase)
-                }
+                // Logar usuário, caso as informações estejam corretas
+                logar(login,senha);
             }
         });
+    }
+
+    // procedimento responsável por verificar a integridade dos dados e logar usuário.
+    private void logar(String l, String s){
+        if (l.equals("")) {
+            Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
+        } else if (l.length() < 11) {
+            Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
+        } else if (s.equals("")) {
+            Toast.makeText(LoginActivity.this, "Digite a senha.", Toast.LENGTH_SHORT).show();
+        } else if(s.length() < 6){
+            Toast.makeText(LoginActivity.this, "Senha incompleta.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(LoginActivity.this, "Login efetuado!", Toast.LENGTH_SHORT).show();
+            //TODO implementar acesso ao usuário (Firebase)
+        }
     }
 }
