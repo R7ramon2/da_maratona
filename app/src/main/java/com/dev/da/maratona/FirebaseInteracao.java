@@ -17,8 +17,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseInteracao {
     private DatabaseReference dadosReferencia = FirebaseDatabase.getInstance().getReference();
-    private boolean result;
+    private boolean result = true;
 
+    public boolean getResult() {
+        return result;
+    }
+
+    public void setResult(boolean result) {
+        this.result = result;
+    }
 
     public void inserirClasse(String tabela, String matricula, Object obj) {
         dadosReferencia.child(tabela).child(matricula).setValue(obj);
@@ -35,11 +42,11 @@ public class FirebaseInteracao {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    result = true;
+                    setResult(true);
                     dadosReferencia.child(tabela).child(matricula).setValue(obj);
                 }
                 else {
-                    result = false;
+                    setResult(false);
                 }
             }
 
@@ -48,7 +55,7 @@ public class FirebaseInteracao {
                 Log.i("Firebase","Error");
             }
         });
-        return result;
+        return getResult();
     }
 
     public boolean atualizarCampo(final String tabela,final String matricula,final String campo,final String valor){
@@ -59,10 +66,10 @@ public class FirebaseInteracao {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     dadosReferencia.child(tabela).child(matricula).child(campo).setValue(valor);
-                    result = true;
+                    setResult(true);
                 }
                 else {
-                    result = false;
+                    setResult(false);
                 }
             }
 
@@ -71,7 +78,7 @@ public class FirebaseInteracao {
                 Log.i("Firebase","Error");
             }
         });
-        return result;
+        return getResult();
     }
 
 }
