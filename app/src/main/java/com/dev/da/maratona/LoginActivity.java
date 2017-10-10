@@ -40,13 +40,17 @@ public class LoginActivity extends AppCompatActivity {
     private void logar(String l, String s){
         if (l.equals("")) {
             Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
-        } else if (l.length() < 11) {
+        } 
+		else if (l.length() < 11) {
             Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
-        } else if (s.equals("")) {
+        } 
+		else if (s.equals("")) {
             Toast.makeText(LoginActivity.this, "Digite a senha.", Toast.LENGTH_SHORT).show();
-        } else if(s.length() < 6){
+        } 
+		else if(s.length() < 6){
             Toast.makeText(LoginActivity.this, "Senha incompleta.", Toast.LENGTH_SHORT).show();
-        } else {
+        } 
+		else {
             Toast.makeText(LoginActivity.this, "Login efetuado!", Toast.LENGTH_SHORT).show();
             //TODO implementar acesso ao usuário (Firebase)
         }
