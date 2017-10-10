@@ -86,5 +86,10 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="369dp" />
 
+<<<<<<< HEAD
+=======
+
+</android.support.constraint.ConstraintLayout>
+>>>>>>> 93d8266cadda200a542edd6af86479474e11ce1d
 
 </android.support.constraint.ConstraintLayout>

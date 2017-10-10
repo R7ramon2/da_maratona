@@ -51,4 +51,5 @@ public class LoginActivity extends AppCompatActivity {
             //TODO implementar acesso ao usuário (Firebase)
         }
     }
+
 }
