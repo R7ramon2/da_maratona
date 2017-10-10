@@ -5,4 +5,8 @@
     <string name="btn_logar">Logar</string>
     <string name="logo_description">Logomarca do diretório acadêmico de computação</string>
     <string name="da_description">Frase: diretório acadêmico de computação</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
