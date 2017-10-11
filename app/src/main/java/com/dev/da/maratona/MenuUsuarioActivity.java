@@ -81,7 +81,7 @@ public class MenuUsuarioActivity extends AppCompatActivity {
                 case 0:
                     return "Minha Pontuação";
                 case 1:
-                    return "Pontuação";
+                    return "Classificação";
                 case 2:
                     return "Configuração";
             }
