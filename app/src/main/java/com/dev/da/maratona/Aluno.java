@@ -36,19 +36,19 @@ public class Aluno {
         this.nome = nome;
     }
 
-    public String getMatricula(){
+    public String getMatricula() {
         return matricula;
     }
 
-    public void setMatricula(String matricula){
+    public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 
-    public String getSenha(){
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha){
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
