@@ -62,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                         String nome = dataSnapshot.child("nome").getValue().toString();
                         String senha_database = dataSnapshot.child("senha").getValue().toString();
                         if (senha_database.equals(senha)) {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            Intent it = new Intent(LoginActivity.this, MenuUsuarioActivity.class);
+                            startActivity(it);
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Senha incorreta.", Toast.LENGTH_SHORT).show();
