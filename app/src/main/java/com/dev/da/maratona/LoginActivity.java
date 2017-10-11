@@ -38,35 +38,13 @@ public class LoginActivity extends AppCompatActivity {
                 final String matricula = matricula_input.getText().toString();
                 final String senha = senha_input.getText().toString();
 
-
-                DatabaseReference ref = firebase.child("Alunos").child(matricula).getRef();
-                ref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            String nome = dataSnapshot.child("nome").getValue().toString();
-                            String senha_database = dataSnapshot.child("senha").getValue().toString();
-                            if (senha_database.equals(senha)) {
-                                logar(matricula, senha, nome);
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                logar(matricula, senha);
             }
         });
     }
 
     // procedimento responsável por verificar a integridade dos dados e logar usuário.
-    private void logar(final String matricula, final String senha, String nome) {
+    private void logar(final String matricula, final String senha) {
         if (matricula.equals("")) {
             Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
         } else if (matricula.length() < 11) {
@@ -76,9 +54,30 @@ public class LoginActivity extends AppCompatActivity {
         } else if (senha.length() < 6) {
             Toast.makeText(LoginActivity.this, "Senha incompleta.", Toast.LENGTH_SHORT).show();
         } else {
-            //TODO Direcionar para o menu
-            //TODO colocar o metodo "finish()" após o "startActivity()"
-            Toast.makeText(this,"Logado com sucesso",Toast.LENGTH_SHORT).show();
+            DatabaseReference ref = firebase.child("Alunos").child(matricula).getRef();
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        String nome = dataSnapshot.child("nome").getValue().toString();
+                        String senha_database = dataSnapshot.child("senha").getValue().toString();
+                        if (senha_database.equals(senha)) {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Senha incorreta.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Usuário incorreto.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 }
