@@ -16,22 +16,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class LoginActivity extends AppCompatActivity {
-    private EditText login_input, senha_input;
-    private Button entrar;
-    private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
+        public class LoginActivity extends AppCompatActivity {
+            private EditText login_input, senha_input;
+            private Button entrar;
+            private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_login);
 
-        login_input = (EditText) findViewById(R.id.login_input);
-        senha_input = (EditText) findViewById(R.id.senha_input);
-        entrar = (Button) findViewById(R.id.btnLogar);
+                login_input = (EditText) findViewById(R.id.login_input);
+                senha_input = (EditText) findViewById(R.id.senha_input);
+                entrar = (Button) findViewById(R.id.btnLogar);
 
-        login_input.addTextChangedListener(EditTextMask.mask(login_input, EditTextMask.MATRICULA));
-        senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
+                login_input.addTextChangedListener(EditTextMask.mask(login_input, EditTextMask.MATRICULA));
+                senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
+
+                Aluno a = new Aluno();
+                a.setMatricula("201520243-1");
+                a.setSenha("123456");
+                a.setFaltas(5);
+                a.setNome("Tiago Emerenciano");
+                a.setPeriodo("5ª");
+
+                firebase.child("Alunos").child(a.getMatricula()).setValue(a);
 
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // procedimento responsável por verificar a integridade dos dados e logar usuário.
-    private void logar(final String matricula, String senha){
+    private void logar(final String matricula, final String senha){
         if (matricula.equals("")) {
             Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
         } 
@@ -61,25 +70,30 @@ public class LoginActivity extends AppCompatActivity {
         } 
 		else {
             DatabaseReference ref = firebase.child("Alunos").child(matricula).getRef();
-            if(ref == null){
-                Toast.makeText(LoginActivity.this, "Aluno não cadastrado", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                ref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
                         String nome = dataSnapshot.child("nome").getValue().toString();
-                        Alerta alerta = new Alerta("Olá, "+nome,"Avalie nosso app",LoginActivity.this);
-                        alerta.exibir();
-                        Toast.makeText(LoginActivity.this,""+alerta.getRetorno(),Toast.LENGTH_SHORT).show();
+                        String senha_database = dataSnapshot.child("senha").getValue().toString();
+                        if (senha_database.equals(senha)) {
+                            Alerta alerta = new Alerta("Olá, " + nome, "Avalie nosso app", LoginActivity.this);
+                            alerta.exibir();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
+                    else{
+                        Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
                     }
-                });
-            }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
     }
 

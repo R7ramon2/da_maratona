@@ -9,6 +9,24 @@ public class Aluno {
     private String matricula;
     private String senha;
     private String pontuacao;
+    private String periodo;
+    private int faltas;
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
+    public int getFaltas() {
+        return faltas;
+    }
+
+    public void setFaltas(int faltas) {
+        this.faltas = faltas;
+    }
 
     public String getNome() {
         return nome;
