@@ -3,6 +3,7 @@ package com.dev.da.maratona;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.menu.MenuAdapter;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                             String nome = dataSnapshot.child("nome").getValue().toString();
                             String senha_database = dataSnapshot.child("senha").getValue().toString();
                             if (senha_database.equals(senha)) {
-                                logar(login, senha);
+                                logar(login, senha,nome);
                             } else {
                                 Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
                             }
@@ -77,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // procedimento responsável por verificar a integridade dos dados e logar usuário.
-    private void logar(final String matricula, final String senha) {
+    private void logar(final String matricula, final String senha,String nome) {
         if (matricula.equals("")) {
             Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
         } else if (matricula.length() < 11) {
