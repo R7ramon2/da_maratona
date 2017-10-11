@@ -16,31 +16,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-        public class LoginActivity extends AppCompatActivity {
-            private EditText login_input, senha_input;
-            private Button entrar;
-            private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
+public class LoginActivity extends AppCompatActivity {
+    private EditText login_input, senha_input;
+    private Button entrar;
+    private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
 
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_login);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-                login_input = (EditText) findViewById(R.id.login_input);
-                senha_input = (EditText) findViewById(R.id.senha_input);
-                entrar = (Button) findViewById(R.id.btnLogar);
+        login_input = (EditText) findViewById(R.id.login_input);
+        senha_input = (EditText) findViewById(R.id.senha_input);
+        entrar = (Button) findViewById(R.id.btnLogar);
 
-                login_input.addTextChangedListener(EditTextMask.mask(login_input, EditTextMask.MATRICULA));
-                senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
-
-                Aluno a = new Aluno();
-                a.setMatricula("201520867-9");
-                a.setSenha("123456");
-                a.setFaltas(5);
-                a.setNome("Tiago Emerenciano");
-                a.setPeriodo("5ª");
-
-                firebase.child("Alunos").child(a.getMatricula()).setValue(a);
+        login_input.addTextChangedListener(EditTextMask.mask(login_input, EditTextMask.MATRICULA));
+        senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
 
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,31 +40,27 @@ import com.google.firebase.database.ValueEventListener;
                 String senha = senha_input.getText().toString();
 
                 // Logar usuário, caso as informações estejam corretas
-                logar(login,senha);
+                logar(login, senha);
             }
         });
     }
 
     // procedimento responsável por verificar a integridade dos dados e logar usuário.
-    private void logar(final String matricula, final String senha){
+    private void logar(final String matricula, final String senha) {
         if (matricula.equals("")) {
             Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
-        } 
-		else if (matricula.length() < 11) {
+        } else if (matricula.length() < 11) {
             Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
-        } 
-		else if (senha.equals("")) {
+        } else if (senha.equals("")) {
             Toast.makeText(LoginActivity.this, "Digite a senha.", Toast.LENGTH_SHORT).show();
-        } 
-		else if(senha.length() < 6){
+        } else if (senha.length() < 6) {
             Toast.makeText(LoginActivity.this, "Senha incompleta.", Toast.LENGTH_SHORT).show();
-        } 
-		else {
+        } else {
             DatabaseReference ref = firebase.child("Alunos").child(matricula).getRef();
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()) {
+                    if (dataSnapshot.exists()) {
                         String nome = dataSnapshot.child("nome").getValue().toString();
                         String senha_database = dataSnapshot.child("senha").getValue().toString();
                         if (senha_database.equals(senha)) {
@@ -82,8 +69,7 @@ import com.google.firebase.database.ValueEventListener;
                         } else {
                             Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    else{
+                    } else {
                         Toast.makeText(LoginActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
                     }
                 }
