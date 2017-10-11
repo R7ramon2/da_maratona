@@ -34,7 +34,7 @@ import com.google.firebase.database.ValueEventListener;
                 senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
 
                 Aluno a = new Aluno();
-                a.setMatricula("201520243-1");
+                a.setMatricula("201520867-9");
                 a.setSenha("123456");
                 a.setFaltas(5);
                 a.setNome("Tiago Emerenciano");
