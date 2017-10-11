@@ -16,11 +16,12 @@ public class InicioActivity extends AppCompatActivity {
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        Intent it = new Intent(InicioActivity.this,LoginActivity.class);
+
+                        Intent it = new Intent(InicioActivity.this, LoginActivity.class);
                         startActivity(it);
                         finish();
+
                     }
-                },
-                2000);
+                }, 2000);
     }
 }
