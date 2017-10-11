@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MenuAluno"
             android:label="@string/title_activity_main"
             android:theme="@style/NewTheme"></activity>
     </application>

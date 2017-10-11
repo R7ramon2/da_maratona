@@ -3,6 +3,9 @@
     <string name="matricula_hint">Matrícula</string>
     <string name="senha_hint">Senha</string>
     <string name="btn_logar">Logar</string>
+    <string name="tab1">Minha Pontuação</string>
+    <string name="tab2">Classificação</string>
+    <string name="tab3">Configuração</string>
     <string name="logo_description">Logomarca do diretório acadêmico de computação</string>
     <string name="da_description">Frase: diretório acadêmico de computação</string>
     <string name="title_activity_main">MainActivity</string>

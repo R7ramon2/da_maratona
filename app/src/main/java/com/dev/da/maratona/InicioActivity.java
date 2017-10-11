@@ -20,7 +20,6 @@ public class InicioActivity extends AppCompatActivity {
                         Intent it = new Intent(InicioActivity.this, LoginActivity.class);
                         startActivity(it);
                         finish();
-
                     }
                 }, 2000);
     }
