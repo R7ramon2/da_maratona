@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">maratona</string>
+    <string name="app_name">Maratona</string>
     <string name="matricula_hint">Matrícula</string>
     <string name="senha_hint">Senha</string>
     <string name="btn_logar">Logar</string>

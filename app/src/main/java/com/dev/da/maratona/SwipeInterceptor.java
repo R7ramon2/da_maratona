@@ -12,8 +12,9 @@ import android.widget.FrameLayout;
 
 public class SwipeInterceptor extends FrameLayout {
 
-    interface OnSwipeListener{
+    interface OnSwipeListener {
         void onSwipeLeft();
+
         void onSwipeRight();
     }
 
@@ -32,7 +33,7 @@ public class SwipeInterceptor extends FrameLayout {
 
     //Api level 21 ou superior
     public SwipeInterceptor(Context context, AttributeSet attrs,
-            int defStyleAttr, int defStyleRes) {
+                            int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setTouchSlop(context);
     }
@@ -51,10 +52,12 @@ public class SwipeInterceptor extends FrameLayout {
     public void setOnSwipeListenner(OnSwipeListener listener) {
         mSwipeListener = listener;
     }
-    private void setTouchSlop(Context context){
+
+    private void setTouchSlop(Context context) {
         ViewConfiguration vc = ViewConfiguration.get(context);
         mTouchSlop = vc.getScaledTouchSlop();
     }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -91,7 +94,7 @@ public class SwipeInterceptor extends FrameLayout {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
                 if (mIsDragged && mSwipeListener != null) {
-                    if(mDeltaXTotal > 0)
+                    if (mDeltaXTotal > 0)
                         mSwipeListener.onSwipeRight();
                     else mSwipeListener.onSwipeLeft();
                 }

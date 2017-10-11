@@ -5,22 +5,22 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
-/**
+/*
  * Created by ramon on 05/10/2017.
  */
 
 public class Alerta {
-    private String titulo,mensagem;
+    private String titulo, mensagem;
     private Activity activity;
     private boolean retorno;
 
-    public Alerta(String titulo, String mensagem,Activity activity) {
+    public Alerta(String titulo, String mensagem, Activity activity) {
         this.titulo = titulo;
         this.mensagem = mensagem;
         this.activity = activity;
     }
 
-    public String getTitulo() {
+    private String getTitulo() {
         return titulo;
     }
 
@@ -28,7 +28,7 @@ public class Alerta {
         this.titulo = titulo;
     }
 
-    public String getMensagem() {
+    private String getMensagem() {
         return mensagem;
     }
 
@@ -36,7 +36,7 @@ public class Alerta {
         this.mensagem = mensagem;
     }
 
-    public Activity getActivity() {
+    private Activity getActivity() {
         return activity;
     }
 
@@ -44,15 +44,15 @@ public class Alerta {
         this.activity = activity;
     }
 
-    public boolean getRetorno() {
+    private boolean getRetorno() {
         return retorno;
     }
 
-    public void setRetorno(boolean retorno) {
+    private void setRetorno(boolean retorno) {
         this.retorno = retorno;
     }
 
-    public void defineAlerta() {
+    private void defineAlerta() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setTitle(getTitulo());
@@ -61,7 +61,7 @@ public class Alerta {
 
         builder.setPositiveButton("Positivo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(getActivity(), "Positivo = " +arg1, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Positivo = " + arg1, Toast.LENGTH_SHORT).show();
                 setRetorno(true);
             }
         });
@@ -77,7 +77,7 @@ public class Alerta {
         alerta.show();
     }
 
-    public boolean exibir(){
+    public boolean exibir() {
         defineAlerta();
         return getRetorno();
     }
