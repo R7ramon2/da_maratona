@@ -18,7 +18,7 @@ public class InicioActivity extends AppCompatActivity {
                     public void run() {
                         Intent it = new Intent(InicioActivity.this,LoginActivity.class);
                         startActivity(it);
-
+                        finish();
                     }
                 },
                 2000);
