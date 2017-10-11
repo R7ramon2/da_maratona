@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Senha incompleta.", Toast.LENGTH_SHORT).show();
         } else {
             //TODO Direcionar para o menu
+            //TODO colocar o metodo "finish()" após o "startActivity()"
             Toast.makeText(this,"Logado com sucesso",Toast.LENGTH_SHORT).show();
         }
     }
