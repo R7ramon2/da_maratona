@@ -1,5 +1,6 @@
 package com.dev.da.maratona;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
@@ -9,11 +10,14 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MenuUsuarioActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
+    
     private ViewPager mViewPager;
 
     @Override
@@ -28,6 +32,7 @@ public class MenuUsuarioActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
     }
 
     @Override
@@ -55,9 +60,13 @@ public class MenuUsuarioActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            /*Pegando dados da Activity LoginActivity.java*/
+            Intent it = getIntent();
+            Aluno aluno = (Aluno) it.getSerializableExtra("aluno_objeto");
+
             switch (position) {
                 case 0:
-                    Tab1Pontuacao tab1 = new Tab1Pontuacao();
+                    Tab1Pontuacao tab1 = new Tab1Pontuacao(aluno);
                     return tab1;
                 case 1:
                     Tab2Classificacao tab2 = new Tab2Classificacao();

@@ -4,11 +4,13 @@ package com.dev.da.maratona;
  * Created by Ramon on 09/10/2017.
  */
 
-public class Aluno {
+import java.io.Serializable;
+
+public class Aluno implements Serializable {
     private String nome;
     private String matricula;
     private String senha;
-    private String pontuacao;
+    private int pontuacao;
     private String periodo;
     private int faltas;
 
@@ -52,11 +54,11 @@ public class Aluno {
         this.senha = senha;
     }
 
-    public String getPontuacao() {
+    public int getPontuacao() {
         return pontuacao;
     }
 
-    public void setPontuacao(String pontuacao) {
+    public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
     }
 }

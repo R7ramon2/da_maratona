@@ -1,9 +1,11 @@
 package com.dev.da.maratona;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.Serializable;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText matricula_input, senha_input;
@@ -28,6 +32,14 @@ public class LoginActivity extends AppCompatActivity {
         matricula_input = (EditText) findViewById(R.id.login_input);
         senha_input = (EditText) findViewById(R.id.senha_input);
         entrar = (Button) findViewById(R.id.btnLogar);
+
+        matricula_input.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                senha_input.setText("");
+                return false;
+            }
+        });
 
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
@@ -59,10 +71,11 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        String nome = dataSnapshot.child("nome").getValue().toString();
+                        Aluno aluno_objeto = dataSnapshot.getValue(Aluno.class);
                         String senha_database = dataSnapshot.child("senha").getValue().toString();
                         if (senha_database.equals(senha)) {
                             Intent it = new Intent(LoginActivity.this, MenuUsuarioActivity.class);
+                            it.putExtra("aluno_objeto", aluno_objeto);
                             startActivity(it);
                             finish();
                         } else {
@@ -76,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    Toast.makeText(LoginActivity.this, "Erro com o banco de dados, por favor contactar o desenvolvedor", Toast.LENGTH_SHORT).show();
                 }
             });
         }
