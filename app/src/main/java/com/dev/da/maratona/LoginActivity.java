@@ -44,13 +44,14 @@ public class LoginActivity extends AppCompatActivity {
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
 
-        entrar.setOnClickListener(new View.OnClickListener() {
+        entrar.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
                 final String matricula = matricula_input.getText().toString();
                 final String senha = senha_input.getText().toString();
 
                 logar(matricula, senha);
+                return false;
             }
         });
     }
