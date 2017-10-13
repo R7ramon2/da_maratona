@@ -16,8 +16,6 @@ import android.widget.TextView;
 public class MenuUsuarioActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    
     private ViewPager mViewPager;
 
     @Override
