@@ -77,7 +77,12 @@ public class LoginActivity extends AppCompatActivity {
                             Intent it = new Intent(LoginActivity.this, MenuUsuarioActivity.class);
                             it.putExtra("aluno_objeto", aluno_objeto);
                             startActivity(it);
-                            finish();
+                            new android.os.Handler().postDelayed(new Runnable() {
+                                public void run() {
+                                    matricula_input.setText("");
+                                    senha_input.setText("");
+                                }
+                            }, 2000);
                         } else {
                             Toast.makeText(LoginActivity.this, "Senha incorreta.", Toast.LENGTH_SHORT).show();
                         }

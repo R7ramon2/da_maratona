@@ -81,11 +81,11 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@string/da_description"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13"
+        app:layout_constraintVertical_bias="0.133"
         app:srcCompat="@drawable/logo" />
 
 </android.support.constraint.ConstraintLayout>
