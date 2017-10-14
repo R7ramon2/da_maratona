@@ -1,7 +1,6 @@
 package com.dev.da.maratona;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -16,8 +15,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.Serializable;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText matricula_input, senha_input;
@@ -49,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 final String matricula = matricula_input.getText().toString();
                 final String senha = senha_input.getText().toString();
-
                 logar(matricula, senha);
                 return false;
             }
@@ -72,12 +68,19 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        Aluno aluno_objeto = dataSnapshot.getValue(Aluno.class);
+                        Aluno usuario_objeto = dataSnapshot.getValue(Aluno.class);
+                        String admin_database = dataSnapshot.child("admin").getValue().toString();
                         String senha_database = dataSnapshot.child("senha").getValue().toString();
                         if (senha_database.equals(senha)) {
-                            Intent it = new Intent(LoginActivity.this, MenuUsuarioActivity.class);
-                            it.putExtra("aluno_objeto", aluno_objeto);
-                            startActivity(it);
+                            if (isAdmin(admin_database)) {
+                                Intent aluno = new Intent(LoginActivity.this, MenuAdminActivity.class);
+                                aluno.putExtra("usuario_objeto", usuario_objeto);
+                                startActivity(aluno);
+                            } else {
+                                Intent aluno = new Intent(LoginActivity.this, MenuAlunoActivity.class);
+                                aluno.putExtra("usuario_objeto", usuario_objeto);
+                                startActivity(aluno);
+                            }
                             new android.os.Handler().postDelayed(new Runnable() {
                                 public void run() {
                                     matricula_input.setText("");
@@ -90,14 +93,18 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(LoginActivity.this, "Usuário incorreto.", Toast.LENGTH_SHORT).show();
                     }
-
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(LoginActivity.this, "Erro com o banco de dados, por favor contactar o desenvolvedor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Erro com o banco de dados. Favor contactar o desenvolvedor", Toast.LENGTH_SHORT).show();
                 }
             });
         }
+    }
+
+    // procedimento responsável por validar o tipo de usuário (Admin / Aluno)
+    protected boolean isAdmin(String admin) {
+        return !admin.equals("0");
     }
 }

@@ -1,8 +1,12 @@
 package com.dev.da.maratona;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,10 +14,9 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.view.View;
 
-public class MenuUsuarioActivity extends AppCompatActivity {
+public class MenuAdminActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -21,21 +24,20 @@ public class MenuUsuarioActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_usuario);
+        setContentView(R.layout.activity_menu_admin);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsAdmin);
         tabLayout.setupWithViewPager(mViewPager);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_admin, menu);
         return true;
     }
 
@@ -43,11 +45,8 @@ public class MenuUsuarioActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -58,39 +57,40 @@ public class MenuUsuarioActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            /*Pegando dados da Activity LoginActivity.java*/
+            //Pegando dados da Activity LoginActivity.java
             Intent it = getIntent();
-            Aluno aluno = (Aluno) it.getSerializableExtra("aluno_objeto");
+            Aluno aluno = (Aluno) it.getSerializableExtra("usuario_objeto");
 
             switch (position) {
                 case 0:
-                    Tab1Pontuacao tab1 = new Tab1Pontuacao(aluno);
-                    return tab1;
+                    return new Tab0Administrador();
                 case 1:
-                    Tab2Classificacao tab2 = new Tab2Classificacao();
-                    return tab2;
+                    return new Tab1Pontuacao(aluno);
                 case 2:
-                    Tab3Configuracao tab3 = new Tab3Configuracao();
-                    return tab3;
-                default:
-                    return null;
+                    return new Tab2Classificacao();
+                case 3:
+                    return new Tab3Configuracao();
             }
+            return null;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            // Qtd de tabs
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Minha Pontuação";
+                    return "Admin";
                 case 1:
-                    return "Classificação";
+                    return "Pontua-\nção";
                 case 2:
-                    return "Configuração";
+                    return "Classifica-\nção";
+                case 3:
+                    return "Configura-\nção";
             }
             return null;
         }

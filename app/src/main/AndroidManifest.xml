@@ -18,8 +18,12 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity
-            android:name=".MenuUsuarioActivity"
+            android:name=".MenuAlunoActivity"
             android:label="@string/title_activity_main"
+            android:theme="@style/NewTheme" />
+        <activity
+            android:name=".MenuAdminActivity"
+            android:label="@string/title_activity_menu_admin"
             android:theme="@style/NewTheme"></activity>
     </application>
 

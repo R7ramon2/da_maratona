@@ -6,31 +6,16 @@ package com.dev.da.maratona;
 
 import java.io.Serializable;
 
-public class Aluno implements Serializable {
+class Aluno implements Serializable {
     private String nome;
     private String matricula;
     private String senha;
     private int pontuacao;
     private String periodo;
     private int faltas;
+    private String admin;
 
-    public String getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
-    }
-
-    public int getFaltas() {
-        return faltas;
-    }
-
-    public void setFaltas(int faltas) {
-        this.faltas = faltas;
-    }
-
-    public String getNome() {
+    String getNome() {
         return nome;
     }
 
@@ -38,7 +23,7 @@ public class Aluno implements Serializable {
         this.nome = nome;
     }
 
-    public String getMatricula() {
+    String getMatricula() {
         return matricula;
     }
 
@@ -54,11 +39,35 @@ public class Aluno implements Serializable {
         this.senha = senha;
     }
 
-    public int getPontuacao() {
+    int getPontuacao() {
         return pontuacao;
     }
 
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
+    }
+
+    String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
+    int getFaltas() {
+        return faltas;
+    }
+
+    public void setFaltas(int faltas) {
+        this.faltas = faltas;
+    }
+
+    public String getAdmin(){
+        return admin;
+    }
+
+    public void setAdmin(String admin){
+        this.admin = admin;
     }
 }

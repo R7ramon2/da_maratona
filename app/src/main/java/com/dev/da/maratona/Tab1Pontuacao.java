@@ -1,7 +1,5 @@
 package com.dev.da.maratona;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,8 +13,8 @@ import android.widget.TextView;
 
 public class Tab1Pontuacao extends Fragment {
 
-    private TextView teste;
     Aluno aluno;
+    private TextView teste;
 
     public Tab1Pontuacao(Aluno aluno) {
         this.aluno = aluno;
@@ -26,9 +24,9 @@ public class Tab1Pontuacao extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab1pontuacao, container, false);
 
-        /*Demonstração de como se deve pegar os dados da activity do fragment (Aba do menu) --> Inicio*/
+        // Demonstração de como se deve pegar os dados da activity do fragment (Aba do menu) --> Inicio
         String nome = aluno.getNome();
-        teste = (TextView) rootView.findViewById(R.id.texto);
+        teste = rootView.findViewById(R.id.texto);
         teste.setText(
                 "Nome: "+nome+"\n"+
                 "Matricula: "+aluno.getMatricula()+"\n"+
@@ -36,8 +34,6 @@ public class Tab1Pontuacao extends Fragment {
                 "Periodo: "+aluno.getPeriodo()+"\n"+
                 "Nª de faltas: "+aluno.getFaltas()
         );
-
-        /* --> Fim*/
         return rootView;
     }
 
