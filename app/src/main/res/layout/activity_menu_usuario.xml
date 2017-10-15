@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
-    tools:context="com.dev.da.maratona.MenuAlunoActivity">
+    tools:context="com.dev.da.maratona.MenuUsuarioActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
