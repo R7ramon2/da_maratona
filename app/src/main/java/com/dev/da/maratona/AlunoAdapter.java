@@ -39,10 +39,13 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
         convertView = LayoutInflater.from(this.context).inflate(R.layout.aluno_item,null);
 
         TextView nome = convertView.findViewById(R.id.nome_item);
-        TextView matricula = convertView.findViewById(R.id.matricula_item);
+        TextView pontos = convertView.findViewById(R.id.pontos_item);
+        TextView pos = convertView.findViewById(R.id.posicao_item);
 
         nome.setText(alunoPosicao.getNome());
-        matricula.setText(alunoPosicao.getMatricula());
+        pontos.setText(String.valueOf(alunoPosicao.getPontuacao()));
+        pos.setText(String.valueOf(position+1)+". ");
+
 
         return convertView;
     }

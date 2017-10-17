@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Maratona</string>
+    <string name="nome_adapter">Nome</string>
+    <string name="pontuacao_adapter">9999</string>
     <string name="matricula_hint">Matrícula</string>
     <string name="senha_hint">Senha</string>
     <string name="btn_logar">Logar</string>
@@ -17,4 +19,5 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_menu_admin">MenuAdminActivity</string>
     <string name="informacoes_usuario">recuperadas do banco</string>
+    <string name="posicao">99</string>
 </resources>
