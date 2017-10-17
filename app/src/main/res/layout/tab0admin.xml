@@ -9,9 +9,87 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dev.da.maratona.MenuAdminActivity">
 
-    <TextView
-        android:id="@+id/section_label"
+    <EditText
+        android:id="@+id/matricula_input"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/section_label"
+        android:layout_marginTop="13dp"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="@string/matricula_hint"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_addPontuacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_remPontuacao"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/btn_add_pontuacao" />
+
+    <Button
+        android:id="@+id/btn_addFaltas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_remPontuacao"
+        android:layout_alignParentEnd="true"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/btn_adicionar_faltas" />
+
+    <Button
+        android:id="@+id/btn_remPontuacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView5"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="66dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/btn_del_pontuacao" />
+
+    <Button
+        android:id="@+id/btn_remFaltas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_remPontuacao"
+        android:layout_alignBottom="@+id/btn_remPontuacao"
+        android:layout_alignParentEnd="true"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/btn_remover_faltas" />
+
+    <Button
+        android:id="@+id/btn_addPeriodo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="93dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/btn_adicionar_periodo" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_addPeriodo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="47dp"
+        android:text="@string/para_todos"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/qtd_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/matricula_input"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="@string/quantidade"
+        android:inputType="number" />
 
 </RelativeLayout>

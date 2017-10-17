@@ -32,7 +32,7 @@ public class Tab1Pontuacao extends Fragment {
                 "Matricula: "+aluno.getMatricula()+"\n"+
                 "Pontuação: "+aluno.getPontuacao()+"\n"+
                 "Periodo: "+aluno.getPeriodo()+"\n"+
-                "Nª de faltas: "+aluno.getFaltas()
+                "Nº de faltas: "+aluno.getFaltas()
         );
         return rootView;
     }

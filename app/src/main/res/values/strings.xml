@@ -20,4 +20,12 @@
     <string name="title_activity_menu_admin">MenuAdminActivity</string>
     <string name="informacoes_usuario">recuperadas do banco</string>
     <string name="posicao">99</string>
+    <string name="btn_add_pontuacao">Add Pontuação</string>
+    <string name="btn_adicionar_faltas">Add Faltas</string>
+    <string name="btn_del_pontuacao">Rem Pontuação</string>
+    <string name="btn_remover_faltas">Rem Faltas</string>
+    <string name="separacao_tela">------------------------------------------------------------------------------</string>
+    <string name="btn_adicionar_periodo">Add Período</string>
+    <string name="para_todos">Para Todos</string>
+    <string name="quantidade">Quantidade</string>
 </resources>
