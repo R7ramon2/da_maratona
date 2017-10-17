@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
  * Created by Tiago Emerenciano on 11/10/2017.
@@ -41,9 +42,9 @@ public class Tab2Classificacao extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 lista.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    //TODO: Implementar ordenação decrescente.
                     lista.add(postSnapshot.getValue(Aluno.class));
                 }
+                Collections.reverse(lista);
                 AlunoAdapter alunoAdapter = new AlunoAdapter(getContext(),lista);
                 classificao.setAdapter(alunoAdapter);
             }
