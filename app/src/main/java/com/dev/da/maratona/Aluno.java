@@ -6,14 +6,31 @@ package com.dev.da.maratona;
 
 import java.io.Serializable;
 
-public class Aluno implements Serializable {
-    private String nome;
+class Aluno implements Serializable {
+
+    private String nome, primeiroNome, ultimoNome;
     private String matricula;
     private String senha;
     private int pontuacao;
     private String periodo;
     private int faltas;
     private String admin;
+
+    public String getPrimeiroNome() {
+        return primeiroNome;
+    }
+
+    public void setPrimeiroNome(String primeiroNome) {
+        this.primeiroNome = primeiroNome;
+    }
+
+    public String getUltimoNome() {
+        return ultimoNome;
+    }
+
+    public void setUltimoNome(String ultimoNome) {
+        this.ultimoNome = ultimoNome;
+    }
 
     public String getNome() {
         return nome;

@@ -42,7 +42,7 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
         TextView pontos = convertView.findViewById(R.id.pontos_item);
         TextView pos = convertView.findViewById(R.id.posicao_item);
 
-        nome.setText(alunoPosicao.getNome());
+        nome.setText(alunoPosicao.getPrimeiroNome()+" "+alunoPosicao.getUltimoNome());
         pontos.setText(String.valueOf(alunoPosicao.getPontuacao()));
         pos.setText(String.valueOf(position+1)+". ");
 
