@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import static android.R.attr.content;
 import static android.R.attr.resource;
 
-/**
+/*
  * Created by Ramon on 16/10/2017.
  */
 
@@ -38,8 +38,8 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
         Aluno alunoPosicao = this.lista.get(position);
         convertView = LayoutInflater.from(this.context).inflate(R.layout.aluno_item,null);
 
-        TextView nome = (TextView) convertView.findViewById(R.id.nome_item);
-        TextView matricula = (TextView) convertView.findViewById(R.id.matricula_item);
+        TextView nome = convertView.findViewById(R.id.nome_item);
+        TextView matricula = convertView.findViewById(R.id.matricula_item);
 
         nome.setText(alunoPosicao.getNome());
         matricula.setText(alunoPosicao.getMatricula());
