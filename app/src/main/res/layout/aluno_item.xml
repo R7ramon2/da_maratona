@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/matricula"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/nome_item"
+        android:layout_width="330dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:layout_toEndOf="@+id/posicao_item"
+        android:text="@string/nome_adapter"
+        android:textSize="18sp"
+        app:layout_constraintRight_toLeftOf="@+id/pontos_item"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/pontos_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/nome_item"
+        android:layout_alignEnd="@+id/nome_item"
+        android:text="@string/pontuacao_adapter" />
+
+    <TextView
+        android:id="@+id/posicao_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/nome_item"
+        android:layout_alignBottom="@+id/nome_item"
+        android:layout_alignParentStart="true"
+        android:text="@string/posicao"
+        android:textSize="20sp" />
+
+</RelativeLayout>
