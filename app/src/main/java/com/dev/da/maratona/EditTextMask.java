@@ -8,12 +8,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-abstract class EditTextMask {
+public abstract class EditTextMask {
 
-    static final String MATRICULA = "#########-#";
-    static final String SENHA = "######";
+    public static final String MATRICULA = "#########-#";
+    public static final String SENHA = "######";
 
-    static TextWatcher mask(final EditText ediTxt, final String mask) {
+    public static TextWatcher mask(final EditText ediTxt, final String mask) {
         return new TextWatcher() {
             boolean isUpdating;
             String old = "";

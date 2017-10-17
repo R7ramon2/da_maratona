@@ -6,7 +6,7 @@ package com.dev.da.maratona;
 
 import java.io.Serializable;
 
-class Aluno implements Serializable {
+public class Aluno implements Serializable {
     private String nome;
     private String matricula;
     private String senha;
@@ -15,7 +15,7 @@ class Aluno implements Serializable {
     private int faltas;
     private String admin;
 
-    String getNome() {
+    public String getNome() {
         return nome;
     }
 
@@ -23,7 +23,7 @@ class Aluno implements Serializable {
         this.nome = nome;
     }
 
-    String getMatricula() {
+    public String getMatricula() {
         return matricula;
     }
 
@@ -39,7 +39,7 @@ class Aluno implements Serializable {
         this.senha = senha;
     }
 
-    int getPontuacao() {
+    public int getPontuacao() {
         return pontuacao;
     }
 
@@ -47,7 +47,7 @@ class Aluno implements Serializable {
         this.pontuacao = pontuacao;
     }
 
-    String getPeriodo() {
+    public String getPeriodo() {
         return periodo;
     }
 
@@ -55,7 +55,7 @@ class Aluno implements Serializable {
         this.periodo = periodo;
     }
 
-    int getFaltas() {
+    public int getFaltas() {
         return faltas;
     }
 
