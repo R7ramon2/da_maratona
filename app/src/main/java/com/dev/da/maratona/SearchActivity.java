@@ -40,9 +40,8 @@ public class SearchActivity extends AppCompatActivity {
         listVPesquisa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Aluno aluno = (Aluno) listVPesquisa.getItemAtPosition(position);
-                Toast.makeText(SearchActivity.this, aluno.getMatricula(), Toast.LENGTH_SHORT).show();
-                //TODO: Implementar troca de activity settando aluno.getMatricula() no campo de matrícula da Activity Tab0Administrador.
+                Aluno alunoEncontrado = (Aluno) listVPesquisa.getItemAtPosition(position);
+                Toast.makeText(SearchActivity.this, alunoEncontrado.getMatricula(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -62,9 +61,7 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             query = databaseReference.child("Alunos").orderByChild("nome").startAt(palavra).endAt(palavra + "\uf8ff");
         }
-
         lista.clear();
-
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

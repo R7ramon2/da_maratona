@@ -9,14 +9,14 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/NewTheme">
-        <activity android:name=".InicioActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <!--<activity android:name=".LoginActivity" />-->
         <activity
             android:name=".MenuAlunoActivity"
             android:label="@string/title_activity_main"

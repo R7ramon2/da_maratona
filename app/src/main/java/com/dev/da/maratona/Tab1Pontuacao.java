@@ -19,12 +19,13 @@ public class Tab1Pontuacao extends Fragment {
     public Tab1Pontuacao(Aluno aluno) {
         this.aluno = aluno;
     }
+    public Tab1Pontuacao(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab1pontuacao, container, false);
 
-        // Demonstração de como se deve pegar os dados da activity do fragment (Aba do menu) --> Inicio
+         //Demonstração de como se deve pegar os dados da activity do fragment (Aba do menu) --> Inicio
         String nome = aluno.getNome();
         teste = rootView.findViewById(R.id.texto);
         teste.setText(
@@ -36,5 +37,4 @@ public class Tab1Pontuacao extends Fragment {
         );
         return rootView;
     }
-
 }
