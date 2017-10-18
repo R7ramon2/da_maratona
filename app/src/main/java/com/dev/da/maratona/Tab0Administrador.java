@@ -1,19 +1,30 @@
 package com.dev.da.maratona;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Created by Tiago Emerenciano on 14/10/2017.
@@ -29,19 +40,21 @@ public class Tab0Administrador extends Fragment {
     protected Button addPeriodo;
     protected EditText quantidade;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
+    private ImageButton search;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab0admin, container, false);
 
-        matricula = rootView.findViewById(R.id.matricula_input);
-        addPontuacao = rootView.findViewById(R.id.btn_addPontuacao);
-        remPontuacao = rootView.findViewById(R.id.btn_remPontuacao);
-        addFaltas = rootView.findViewById(R.id.btn_addFaltas);
-        remFaltas = rootView.findViewById(R.id.btn_remFaltas);
-        addPeriodo = rootView.findViewById(R.id.btn_addPeriodo);
-        quantidade = rootView.findViewById(R.id.qtd_input);
+        findViewById(rootView);
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), SearchActivity.class));
+            }
+        });
 
         matricula.addTextChangedListener(EditTextMask.mask(matricula, EditTextMask.MATRICULA));
 
@@ -49,9 +62,16 @@ public class Tab0Administrador extends Fragment {
             @Override
             public void onClick(View view) {
                 final String mat = matricula.getText().toString();
-                final int pontos = Integer.parseInt(quantidade.getText().toString());
-                //TODO: Validador dos inputs
-                adicionarPontos(mat, pontos);
+                final String pontos = quantidade.getText().toString();
+                final int pontosInt;
+                if (mat.equals("")) {
+                    Toast.makeText(getContext(), "Matrícula não informada.", Toast.LENGTH_SHORT).show();
+                } else if (pontos.equals("")) {
+                    Toast.makeText(getContext(), "Pontuação não digitada.", Toast.LENGTH_SHORT).show();
+                } else {
+                    pontosInt = Integer.parseInt(pontos);
+                    adicionarPontos(mat, pontosInt);
+                }
             }
         });
 
@@ -59,9 +79,17 @@ public class Tab0Administrador extends Fragment {
             @Override
             public void onClick(View view) {
                 final String mat = matricula.getText().toString();
-                final int pontos = Integer.parseInt(quantidade.getText().toString());
+                final String pontos = quantidade.getText().toString();
+                final int pontosInt;
                 //TODO: Validador dos inputs
-                removerPontos(mat, pontos);
+                if (mat.equals("")) {
+                    Toast.makeText(getContext(), "Matrícula não informada.", Toast.LENGTH_SHORT).show();
+                } else if (pontos.equals("")) {
+                    Toast.makeText(getContext(), "Pontuação não digitada.", Toast.LENGTH_SHORT).show();
+                } else {
+                    pontosInt = Integer.parseInt(pontos);
+                    removerPontos(mat, pontosInt);
+                }
             }
         });
 
@@ -69,8 +97,11 @@ public class Tab0Administrador extends Fragment {
             @Override
             public void onClick(View view) {
                 final String mat = matricula.getText().toString();
-                //TODO: Validador dos inputs
-                adicionarFaltas(mat);
+                if (mat.equals("")) {
+                    Toast.makeText(getContext(), "Matrícula não informada.", Toast.LENGTH_SHORT).show();
+                } else {
+                    adicionarFaltas(mat);
+                }
             }
         });
 
@@ -78,11 +109,13 @@ public class Tab0Administrador extends Fragment {
             @Override
             public void onClick(View view) {
                 final String mat = matricula.getText().toString();
-                //TODO: Validador dos inputs
-                removerFaltas(mat);
+                if (mat.equals("")) {
+                    Toast.makeText(getContext(), "Matrícula não informada.", Toast.LENGTH_SHORT).show();
+                } else {
+                    removerFaltas(mat);
+                }
             }
         });
-
         return rootView;
     }
 
@@ -156,5 +189,16 @@ public class Tab0Administrador extends Fragment {
 
     public void adicionarPeriodo() {
         //TODO: implementar "adicionar período".
+    }
+
+    public void findViewById(View rootView) {
+        matricula = rootView.findViewById(R.id.matricula_input);
+        addPontuacao = rootView.findViewById(R.id.btn_addPontuacao);
+        remPontuacao = rootView.findViewById(R.id.btn_remPontuacao);
+        addFaltas = rootView.findViewById(R.id.btn_addFaltas);
+        remFaltas = rootView.findViewById(R.id.btn_remFaltas);
+        addPeriodo = rootView.findViewById(R.id.btn_addPeriodo);
+        quantidade = rootView.findViewById(R.id.qtd_input);
+        search = rootView.findViewById(R.id.btn_search);
     }
 }

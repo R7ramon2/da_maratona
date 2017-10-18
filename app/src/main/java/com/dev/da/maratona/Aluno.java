@@ -6,7 +6,7 @@ package com.dev.da.maratona;
 
 import java.io.Serializable;
 
-class Aluno implements Serializable {
+public class Aluno implements Serializable {
 
     private String nome, primeiroNome, ultimoNome;
     private String matricula;

@@ -24,7 +24,8 @@
         <activity
             android:name=".MenuAdminActivity"
             android:label="@string/title_activity_menu_admin"
-            android:theme="@style/NewTheme"></activity>
+            android:theme="@style/NewTheme" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

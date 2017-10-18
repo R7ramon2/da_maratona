@@ -12,20 +12,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
-import static android.R.attr.content;
-import static android.R.attr.resource;
-
 /*
  * Created by Ramon on 16/10/2017.
  */
 
-public class AlunoAdapter extends ArrayAdapter<Aluno> {
+public class AlunoAdapterSearch extends ArrayAdapter<Aluno> {
 
     private Context context;
     private ArrayList<Aluno> lista;
 
-    public AlunoAdapter(Context context, ArrayList<Aluno> lista) {
+    public AlunoAdapterSearch(Context context, ArrayList<Aluno> lista) {
         super(context, 0, lista);
         this.context = context;
         this.lista = lista;
@@ -35,15 +31,14 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Aluno alunoPosicao = this.lista.get(position);
-        convertView = LayoutInflater.from(this.context).inflate(R.layout.aluno_item, null);
+        convertView = LayoutInflater.from(this.context).inflate(R.layout.aluno_item_admin, null);
 
         TextView nome = convertView.findViewById(R.id.nome_item);
         TextView pontos = convertView.findViewById(R.id.pontos_item);
         TextView pos = convertView.findViewById(R.id.posicao_item);
 
         nome.setText(alunoPosicao.getPrimeiroNome() + " " + alunoPosicao.getUltimoNome());
-        pontos.setText(String.valueOf(alunoPosicao.getPontuacao()));
-        pos.setText(String.valueOf(position + 1) + ". ");
+        pontos.setText(alunoPosicao.getMatricula());
 
         return convertView;
     }

@@ -33,8 +33,6 @@ public class Tab2Classificacao extends Fragment {
 
         classificao = rootView.findViewById(R.id.classificacao_lista);
 
-        Aluno aluno = new Aluno();
-
         final ArrayList<Aluno> lista = new ArrayList<Aluno>();
 
         firebase.child("Alunos").orderByChild("pontuacao").addValueEventListener(new ValueEventListener() {
