@@ -1,12 +1,15 @@
 package com.dev.da.maratona;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,7 +19,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -24,9 +26,6 @@ public class SearchActivity extends AppCompatActivity {
     private ListView listVPesquisa;
 
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-    private List<Aluno> listPessoa = new ArrayList<Aluno>();
-    private ArrayAdapter<Aluno> arrayAdapterPessoa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,21 +35,22 @@ public class SearchActivity extends AppCompatActivity {
         editPalavra = (EditText) findViewById(R.id.editPalavra);
         listVPesquisa = (ListView) findViewById(R.id.listView);
 
-        editPalavra.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+        buscar();
 
+        listVPesquisa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String nome = editPalavra.getText().toString().trim();
-                pesquisarNome(nome);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Aluno aluno = (Aluno) listVPesquisa.getItemAtPosition(position);
+                Toast.makeText(SearchActivity.this, aluno.getMatricula(), Toast.LENGTH_SHORT).show();
+                //TODO: Implementar troca de activity settando aluno.getMatricula() no campo de matrícula da Activity Tab0Administrador.
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pesquisarNome("");
     }
 
     private void pesquisarNome(String palavra) {
@@ -83,9 +83,23 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        pesquisarNome("");
+    private void buscar() {
+        editPalavra.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String nome = editPalavra.getText().toString().trim();
+                pesquisarNome(nome);
+            }
+        });
     }
+
+
 }

@@ -80,11 +80,11 @@ public class Aluno implements Serializable {
         this.faltas = faltas;
     }
 
-    public String getAdmin(){
+    public String getAdmin() {
         return admin;
     }
 
-    public void setAdmin(String admin){
+    public void setAdmin(String admin) {
         this.admin = admin;
     }
 }

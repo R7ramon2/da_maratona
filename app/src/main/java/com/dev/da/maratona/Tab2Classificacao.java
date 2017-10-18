@@ -43,7 +43,7 @@ public class Tab2Classificacao extends Fragment {
                     lista.add(postSnapshot.getValue(Aluno.class));
                 }
                 Collections.reverse(lista);
-                AlunoAdapter alunoAdapter = new AlunoAdapter(getContext(),lista);
+                AlunoAdapter alunoAdapter = new AlunoAdapter(getContext(), lista);
                 classificao.setAdapter(alunoAdapter);
             }
 

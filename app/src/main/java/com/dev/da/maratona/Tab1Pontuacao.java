@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class Tab1Pontuacao extends Fragment {
 
-    Aluno aluno;
+    private Aluno aluno;
     private TextView teste;
 
     public Tab1Pontuacao(Aluno aluno) {
@@ -21,18 +21,18 @@ public class Tab1Pontuacao extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab1pontuacao, container, false);
 
         // Demonstração de como se deve pegar os dados da activity do fragment (Aba do menu) --> Inicio
         String nome = aluno.getNome();
         teste = rootView.findViewById(R.id.texto);
         teste.setText(
-                "Nome: "+nome+"\n"+
-                "Matricula: "+aluno.getMatricula()+"\n"+
-                "Pontuação: "+aluno.getPontuacao()+"\n"+
-                "Periodo: "+aluno.getPeriodo()+"\n"+
-                "Nº de faltas: "+aluno.getFaltas()
+                "Nome: " + nome + "\n" +
+                        "Matricula: " + aluno.getMatricula() + "\n" +
+                        "Pontuação: " + aluno.getPontuacao() + "\n" +
+                        "Periodo: " + aluno.getPeriodo() + "\n" +
+                        "Nº de faltas: " + aluno.getFaltas()
         );
         return rootView;
     }

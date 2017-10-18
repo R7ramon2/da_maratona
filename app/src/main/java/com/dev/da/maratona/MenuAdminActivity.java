@@ -60,16 +60,16 @@ public class MenuAdminActivity extends AppCompatActivity {
             //Pegando dados da Activity LoginActivity.java
             Intent it = getIntent();
             Aluno aluno = (Aluno) it.getSerializableExtra("usuario_objeto");
-
             switch (position) {
                 case 0:
-                    return new Tab0Administrador();
-                case 1:
                     return new Tab1Pontuacao(aluno);
-                case 2:
+                case 1:
                     return new Tab2Classificacao();
-                case 3:
+                case 2:
                     return new Tab3Configuracao();
+                case 3:
+                    return new Tab0Administrador();
+
             }
             return null;
         }
@@ -84,13 +84,13 @@ public class MenuAdminActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Admin";
+                    return "Pontuação";
                 case 1:
-                    return "Pontua-\nção";
+                    return "Classificação";
                 case 2:
-                    return "Classifica-\nção";
+                    return "Configuração";
                 case 3:
-                    return "Configura-\nção";
+                    return "Admin";
             }
             return null;
         }

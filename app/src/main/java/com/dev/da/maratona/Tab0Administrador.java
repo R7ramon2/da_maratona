@@ -81,7 +81,6 @@ public class Tab0Administrador extends Fragment {
                 final String mat = matricula.getText().toString();
                 final String pontos = quantidade.getText().toString();
                 final int pontosInt;
-                //TODO: Validador dos inputs
                 if (mat.equals("")) {
                     Toast.makeText(getContext(), "Matrícula não informada.", Toast.LENGTH_SHORT).show();
                 } else if (pontos.equals("")) {
