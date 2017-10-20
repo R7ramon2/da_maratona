@@ -1,6 +1,8 @@
 package com.dev.da.maratona;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,9 +24,9 @@ import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
 
+    static Aluno alunoEncontrado;
     private EditText editPalavra;
     private ListView listVPesquisa;
-
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
@@ -40,8 +42,8 @@ public class SearchActivity extends AppCompatActivity {
         listVPesquisa.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Aluno alunoEncontrado = (Aluno) listVPesquisa.getItemAtPosition(position);
-                Toast.makeText(SearchActivity.this, alunoEncontrado.getMatricula(), Toast.LENGTH_SHORT).show();
+                alunoEncontrado = (Aluno) listVPesquisa.getItemAtPosition(position);
+                finish();
             }
         });
     }

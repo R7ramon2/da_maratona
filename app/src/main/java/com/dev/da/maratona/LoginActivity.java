@@ -69,13 +69,17 @@ public class LoginActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         Aluno usuario_objeto = dataSnapshot.getValue(Aluno.class);
+
                         String admin_database = dataSnapshot.child("admin").getValue().toString();
                         String senha_database = dataSnapshot.child("senha").getValue().toString();
                         if (senha_database.equals(senha)) {
                             if (isAdmin(admin_database)) {
-                                Intent aluno = new Intent(LoginActivity.this, MenuAdminActivity.class);
-                                aluno.putExtra("usuario_objeto", usuario_objeto);
-                                startActivity(aluno);
+                                Intent intent = new Intent(LoginActivity.this, MenuAdminActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("usuario_objeto",usuario_objeto);
+//                                bundle.putSerializable("search_objeto",usuario_objeto);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             } else {
                                 Intent aluno = new Intent(LoginActivity.this, MenuAlunoActivity.class);
                                 aluno.putExtra("usuario_objeto", usuario_objeto);

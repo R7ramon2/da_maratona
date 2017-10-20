@@ -1,6 +1,9 @@
 package com.dev.da.maratona;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import static com.dev.da.maratona.SearchActivity.alunoEncontrado;
 
 /*
  * Created by Tiago Emerenciano on 14/10/2017.
@@ -23,13 +29,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Tab0Administrador extends Fragment {
 
-    protected EditText matricula;
-    protected Button addPontuacao;
-    protected Button remPontuacao;
-    protected Button addFaltas;
-    protected Button remFaltas;
-    protected Button addPeriodo;
-    protected EditText quantidade;
+    private EditText matricula;
+    private Button addPontuacao;
+    private Button remPontuacao;
+    private Button addFaltas;
+    private Button remFaltas;
+    private Button addPeriodo;
+    private EditText quantidade;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
     private ImageButton search;
 
@@ -44,11 +50,14 @@ public class Tab0Administrador extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), SearchActivity.class);
+                matricula.setText("");
                 startActivity(intent);
             }
         });
 
         matricula.addTextChangedListener(EditTextMask.mask(matricula, EditTextMask.MATRICULA));
+
+
 
         addPontuacao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +119,7 @@ public class Tab0Administrador extends Fragment {
         return rootView;
     }
 
+    // Adiciona N pontos à um aluno definido.
     public void adicionarPontos(final String matricula, final int pontos) {
         firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -125,6 +135,7 @@ public class Tab0Administrador extends Fragment {
         });
     }
 
+    // Remove N pontos de um aluno definido.
     public void removerPontos(final String matricula, final int pontos) {
         firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -144,6 +155,7 @@ public class Tab0Administrador extends Fragment {
         });
     }
 
+    // Adiciona uma falta para o aluno definido.
     public void adicionarFaltas(final String matricula) {
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -159,6 +171,7 @@ public class Tab0Administrador extends Fragment {
         });
     }
 
+    // Remove uma falta para o aluno definido.
     public void removerFaltas(final String matricula) {
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -178,10 +191,12 @@ public class Tab0Administrador extends Fragment {
         });
     }
 
+    // Adiciona um período para todos os alunos.
     public void adicionarPeriodo() {
-        //TODO: implementar "adicionar período".
+
     }
 
+    // Inicia todas as variáveis
     public void findViewById(View rootView) {
         matricula = rootView.findViewById(R.id.matricula_input);
         addPontuacao = rootView.findViewById(R.id.btn_addPontuacao);
@@ -191,5 +206,14 @@ public class Tab0Administrador extends Fragment {
         addPeriodo = rootView.findViewById(R.id.btn_addPeriodo);
         quantidade = rootView.findViewById(R.id.qtd_input);
         search = rootView.findViewById(R.id.btn_search);
+    }
+
+    // onResume sobreposto para cada vez que o fragment for aberto, verificar se há uma matrícula a set settada no campo "matrícula".
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(alunoEncontrado != null) {
+            matricula.setText(alunoEncontrado.getMatricula());
+        }
     }
 }

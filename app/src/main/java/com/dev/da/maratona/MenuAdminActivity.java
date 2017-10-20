@@ -55,30 +55,19 @@ public class MenuAdminActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             //Pegando dados da Activity LoginActivity.java
             Intent it = getIntent();
-            Aluno aluno;
-            aluno = (Aluno) it.getSerializableExtra("usuario_objeto");
-            if (aluno != null) {
-                switch (position) {
-                    case 0:
-                        return new Tab1Pontuacao(aluno);
-                    case 1:
-                        return new Tab2Classificacao();
-                    case 2:
-                        return new Tab3Configuracao();
-                    case 3:
-                        return new Tab0Administrador();
-                }
-            } else {
-                switch (position) {
-                    case 0:
-                        return new Tab1Pontuacao();
-                    case 1:
-                        return new Tab2Classificacao();
-                    case 2:
-                        return new Tab3Configuracao();
-                    case 3:
-                        return new Tab0Administrador();
-                }
+            Bundle bundle = it.getExtras();
+
+            Aluno aluno, search_obj;
+            aluno = (Aluno) bundle.getSerializable("usuario_objeto");
+            switch (position) {
+                case 0:
+                    return new Tab1Pontuacao(aluno);
+                case 1:
+                    return new Tab2Classificacao();
+                case 2:
+                    return new Tab3Configuracao();
+                case 3:
+                    return new Tab0Administrador();
             }
             return null;
         }
