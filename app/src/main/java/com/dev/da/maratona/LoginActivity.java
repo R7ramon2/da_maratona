@@ -77,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this, MenuAdminActivity.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("usuario_objeto",usuario_objeto);
-//                                bundle.putSerializable("search_objeto",usuario_objeto);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {

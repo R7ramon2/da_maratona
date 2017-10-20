@@ -24,7 +24,8 @@
         <activity
             android:name=".MenuAdminActivity"
             android:label="@string/title_activity_menu_admin"
-            android:theme="@style/NewTheme" />
+            android:theme="@style/NewTheme"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".SearchActivity"></activity>
     </application>
 

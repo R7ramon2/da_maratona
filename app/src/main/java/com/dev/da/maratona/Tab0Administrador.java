@@ -1,11 +1,10 @@
 package com.dev.da.maratona;
 
-import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import static com.dev.da.maratona.SearchActivity.alunoEncontrado;
@@ -38,6 +36,7 @@ public class Tab0Administrador extends Fragment {
     private EditText quantidade;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
     private ImageButton search;
+    private AlertDialog alert;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,8 +55,6 @@ public class Tab0Administrador extends Fragment {
         });
 
         matricula.addTextChangedListener(EditTextMask.mask(matricula, EditTextMask.MATRICULA));
-
-
 
         addPontuacao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +113,20 @@ public class Tab0Administrador extends Fragment {
                 }
             }
         });
+
+        addPeriodo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alert("Confirmação", "Você deseja aumentar um período de cada aluno?", "Sim", "Não");
+            }
+        });
+
+
         return rootView;
     }
 
     // Adiciona N pontos à um aluno definido.
-    public void adicionarPontos(final String matricula, final int pontos) {
+    private void adicionarPontos(final String matricula, final int pontos) {
         firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -136,7 +142,7 @@ public class Tab0Administrador extends Fragment {
     }
 
     // Remove N pontos de um aluno definido.
-    public void removerPontos(final String matricula, final int pontos) {
+    private void removerPontos(final String matricula, final int pontos) {
         firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -156,7 +162,7 @@ public class Tab0Administrador extends Fragment {
     }
 
     // Adiciona uma falta para o aluno definido.
-    public void adicionarFaltas(final String matricula) {
+    private void adicionarFaltas(final String matricula) {
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -172,7 +178,7 @@ public class Tab0Administrador extends Fragment {
     }
 
     // Remove uma falta para o aluno definido.
-    public void removerFaltas(final String matricula) {
+    private void removerFaltas(final String matricula) {
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -192,12 +198,26 @@ public class Tab0Administrador extends Fragment {
     }
 
     // Adiciona um período para todos os alunos.
-    public void adicionarPeriodo() {
+    private void adicionarPeriodo() {
 
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    long periodoAnt = (long) ds.child("periodo").getValue();
+                    ds.child("periodo").getRef().setValue(periodoAnt + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        firebase.child("Alunos").addListenerForSingleValueEvent(eventListener);
     }
 
     // Inicia todas as variáveis
-    public void findViewById(View rootView) {
+    private void findViewById(View rootView) {
         matricula = rootView.findViewById(R.id.matricula_input);
         addPontuacao = rootView.findViewById(R.id.btn_addPontuacao);
         remPontuacao = rootView.findViewById(R.id.btn_remPontuacao);
@@ -208,12 +228,43 @@ public class Tab0Administrador extends Fragment {
         search = rootView.findViewById(R.id.btn_search);
     }
 
+    // AlertDialog para confirmação sobre add período.
+    private void alert(String titulo, String mensagem, String positivo, String negativo) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(titulo);
+        builder.setMessage(mensagem);
+
+        builder.setNegativeButton(negativo, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setPositiveButton(positivo, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                adicionarPeriodo();
+            }
+        });
+
+        alert = builder.create();
+        alert.show();
+    }
+
     // onResume sobreposto para cada vez que o fragment for aberto, verificar se há uma matrícula a set settada no campo "matrícula".
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(alunoEncontrado != null) {
+        if (alunoEncontrado != null) {
             matricula.setText(alunoEncontrado.getMatricula());
         }
+    }
+
+    // onPause sobreposto para cada vez que sair do fragment, colocar a variável alunoEncontrado como nula para não carregar no campo de matrícula.
+    @Override
+    public void onPause() {
+        super.onPause();
+        alunoEncontrado = null;
     }
 }

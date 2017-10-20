@@ -12,7 +12,7 @@ public class Aluno implements Serializable {
     private String matricula;
     private String senha;
     private int pontuacao;
-    private String periodo;
+    private int periodo;
     private int faltas;
     private String admin;
 
@@ -64,11 +64,11 @@ public class Aluno implements Serializable {
         this.pontuacao = pontuacao;
     }
 
-    public String getPeriodo() {
+    public int getPeriodo() {
         return periodo;
     }
 
-    public void setPeriodo(String periodo) {
+    public void setPeriodo(int periodo) {
         this.periodo = periodo;
     }
 
