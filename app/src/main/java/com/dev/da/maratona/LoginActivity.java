@@ -1,6 +1,7 @@
 package com.dev.da.maratona;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -16,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_NOSENSOR;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText matricula_input, senha_input;
     private Button entrar;
@@ -25,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         matricula_input = (EditText) findViewById(R.id.login_input);
         senha_input = (EditText) findViewById(R.id.senha_input);
@@ -76,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (isAdmin(admin_database)) {
                                 Intent intent = new Intent(LoginActivity.this, MenuAdminActivity.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("usuario_objeto",usuario_objeto);
+                                bundle.putSerializable("usuario_objeto", usuario_objeto);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {

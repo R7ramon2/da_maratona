@@ -19,11 +19,11 @@
         android:layout_marginTop="12dp"
         android:text="@string/nome_adapter"
         android:textSize="18sp"
-        app:layout_constraintRight_toLeftOf="@+id/pontos_item"
+        app:layout_constraintRight_toLeftOf="@+id/matricula_item"
         tools:layout_editor_absoluteY="16dp" />
 
     <TextView
-        android:id="@+id/pontos_item"
+        android:id="@+id/matricula_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/nome_item"
@@ -32,7 +32,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        android:text="@string/pontuacao_adapter"
+        android:text="@string/matricula_adapter"
         android:textSize="18sp" />
 
 </RelativeLayout>

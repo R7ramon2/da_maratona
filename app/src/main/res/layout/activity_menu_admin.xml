@@ -27,7 +27,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabsAdmin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearance"/>
     </android.support.design.widget.AppBarLayout>

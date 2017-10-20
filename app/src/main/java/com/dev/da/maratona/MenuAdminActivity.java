@@ -57,7 +57,7 @@ public class MenuAdminActivity extends AppCompatActivity {
             Intent it = getIntent();
             Bundle bundle = it.getExtras();
 
-            Aluno aluno, search_obj;
+            Aluno aluno;
             aluno = (Aluno) bundle.getSerializable("usuario_objeto");
             switch (position) {
                 case 0:

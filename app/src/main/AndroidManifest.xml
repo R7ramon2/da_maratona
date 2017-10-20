@@ -7,12 +7,12 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/NewTheme">
+        android:theme="@style/NewTheme" >
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -20,13 +20,15 @@
         <activity
             android:name=".MenuAlunoActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/NewTheme" />
         <activity
             android:name=".MenuAdminActivity"
             android:label="@string/title_activity_menu_admin"
+            android:screenOrientation="portrait"
             android:theme="@style/NewTheme"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".SearchActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".SearchActivity" />
     </application>
 
 </manifest>

@@ -34,7 +34,7 @@ public class AlunoAdapterSearch extends ArrayAdapter<Aluno> {
         convertView = LayoutInflater.from(this.context).inflate(R.layout.aluno_item_admin, null);
 
         TextView nome = convertView.findViewById(R.id.nome_item);
-        TextView pontos = convertView.findViewById(R.id.pontos_item);
+        TextView pontos = convertView.findViewById(R.id.matricula_item);
         TextView pos = convertView.findViewById(R.id.posicao_item);
 
         nome.setText(alunoPosicao.getPrimeiroNome() + " " + alunoPosicao.getUltimoNome());

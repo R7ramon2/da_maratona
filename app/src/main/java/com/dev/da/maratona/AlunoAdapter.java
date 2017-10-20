@@ -12,10 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
-import static android.R.attr.content;
-import static android.R.attr.resource;
-
 /*
  * Created by Ramon on 16/10/2017.
  */
@@ -38,12 +34,12 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
         convertView = LayoutInflater.from(this.context).inflate(R.layout.aluno_item, null);
 
         TextView nome = convertView.findViewById(R.id.nome_item);
-        TextView pontos = convertView.findViewById(R.id.pontos_item);
+        TextView pontos = convertView.findViewById(R.id.matricula_item);
         TextView pos = convertView.findViewById(R.id.posicao_item);
 
         nome.setText(alunoPosicao.getPrimeiroNome() + " " + alunoPosicao.getUltimoNome());
         pontos.setText(String.valueOf(alunoPosicao.getPontuacao()));
-        pos.setText(String.valueOf(position + 1) + ". ");
+        pos.setText(String.valueOf(position + 1) + ".");
 
         return convertView;
     }

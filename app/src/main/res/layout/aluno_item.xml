@@ -17,11 +17,11 @@
         android:layout_toEndOf="@+id/posicao_item"
         android:text="@string/nome_adapter"
         android:textSize="18sp"
-        app:layout_constraintRight_toLeftOf="@+id/pontos_item"
+        app:layout_constraintRight_toLeftOf="@+id/matricula_item"
         tools:layout_editor_absoluteY="16dp" />
 
     <TextView
-        android:id="@+id/pontos_item"
+        android:id="@+id/matricula_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/nome_item"
