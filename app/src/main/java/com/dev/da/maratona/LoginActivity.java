@@ -17,9 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_NOSENSOR;
-
 public class LoginActivity extends AppCompatActivity {
+    static Aluno alunoLogado;
     private EditText matricula_input, senha_input;
     private Button entrar;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
@@ -74,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         Aluno usuario_objeto = dataSnapshot.getValue(Aluno.class);
-
+                        alunoLogado = usuario_objeto;
                         String admin_database = dataSnapshot.child("admin").getValue().toString();
                         String senha_database = dataSnapshot.child("senha").getValue().toString();
                         if (senha_database.equals(senha)) {

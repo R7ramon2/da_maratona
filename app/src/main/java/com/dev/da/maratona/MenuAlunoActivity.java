@@ -62,7 +62,7 @@ public class MenuAlunoActivity extends AppCompatActivity {
                 case 1:
                     return new Tab2Classificacao();
                 case 2:
-                    return new Tab3Configuracao();
+                    return new Tab3Foto();
                 default:
                     return null;
             }
@@ -77,11 +77,11 @@ public class MenuAlunoActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Minha Pontuação";
+                    return "Meus Dados";
                 case 1:
                     return "Classificação";
                 case 2:
-                    return "Configuração";
+                    return "Foto";
             }
             return null;
         }

@@ -12,30 +12,36 @@
         android:layout_width="330dp"
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="11dp"
-        android:layout_toEndOf="@+id/posicao_item"
+        android:layout_alignTop="@+id/matricula_item"
         android:text="@string/nome_adapter"
         android:textSize="18sp"
-        app:layout_constraintRight_toLeftOf="@+id/matricula_item"
+        app:layout_constraintRight_toLeftOf="@+id/posicao_item"
         tools:layout_editor_absoluteY="16dp" />
 
     <TextView
         android:id="@+id/matricula_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/nome_item"
-        android:layout_alignEnd="@+id/nome_item"
+        android:layout_below="@+id/posicao_item"
+        android:layout_marginEnd="47dp"
+        android:layout_toStartOf="@+id/img_aluno"
         android:text="@string/pontuacao_adapter" />
 
     <TextView
         android:id="@+id/posicao_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/nome_item"
-        android:layout_alignBottom="@+id/nome_item"
         android:layout_alignParentStart="true"
+        android:layout_alignStart="@id/nome_item"
         android:text="@string/posicao"
-        android:textSize="20sp" />
+        android:textSize="16sp"/>
+
+    <ImageView
+        android:id="@+id/img_aluno"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@android:drawable/presence_invisible" />
 
 </RelativeLayout>

@@ -8,7 +8,7 @@
     <string name="btn_logar">Logar</string>
     <string name="tab1">Minha Pontuação</string>
     <string name="tab2">Classificação</string>
-    <string name="tab3">Configuração</string>
+    <string name="tab3">Foto</string>
     <string name="logo_description">Logomarca do diretório acadêmico de computação</string>
     <string name="da_description">Frase: diretório acadêmico de computação</string>
     <string name="title_activity_main">MenuAlunoActivity</string>
@@ -28,4 +28,6 @@
     <string name="btn_adicionar_periodo">Add Período</string>
     <string name="para_todos">Para Todos</string>
     <string name="quantidade">Quantidade</string>
+    <string name="btn_selecionar_imagem">Selecionar Foto</string>
+    <string name="btn_upload_imagem">Upload</string>
 </resources>
