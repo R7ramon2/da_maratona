@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -55,6 +57,7 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
         Glide.with(getContext())
                 .using(new FirebaseImageLoader())
                 .load(storage)
+                .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
                 .error(R.drawable.usuario)
                 .into(foto);
 

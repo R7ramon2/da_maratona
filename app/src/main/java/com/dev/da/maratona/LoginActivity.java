@@ -34,14 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         senha_input = (EditText) findViewById(R.id.senha_input);
         entrar = (Button) findViewById(R.id.btnLogar);
 
-        matricula_input.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                senha_input.setText("");
-                return false;
-            }
-        });
-
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
 

@@ -26,6 +26,7 @@ public class Tab2Classificacao extends Fragment {
 
     private ListView classificao;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
+    private ArrayList<Aluno> lista = new ArrayList<Aluno>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,8 +34,12 @@ public class Tab2Classificacao extends Fragment {
 
         classificao = rootView.findViewById(R.id.classificacao_lista);
 
-        final ArrayList<Aluno> lista = new ArrayList<Aluno>();
+        contruirLista();
 
+        return rootView;
+    }
+
+    public void contruirLista() {
         firebase.child("Alunos").orderByChild("pontuacao").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -52,6 +57,11 @@ public class Tab2Classificacao extends Fragment {
 
             }
         });
-        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        contruirLista();
     }
 }

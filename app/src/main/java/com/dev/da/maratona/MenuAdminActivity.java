@@ -61,7 +61,7 @@ public class MenuAdminActivity extends AppCompatActivity {
             aluno = (Aluno) bundle.getSerializable("usuario_objeto");
             switch (position) {
                 case 0:
-                    return new Tab1Pontuacao(aluno);
+                    return new Tab1MeusDados(aluno);
                 case 1:
                     return new Tab2Classificacao();
                 case 2:
@@ -84,7 +84,7 @@ public class MenuAdminActivity extends AppCompatActivity {
                 case 0:
                     return "Meus Dados";
                 case 1:
-                    return "Classificação";
+                    return "Ranking";
                 case 2:
                     return "Foto";
                 case 3:

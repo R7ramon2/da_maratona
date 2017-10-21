@@ -58,7 +58,7 @@ public class MenuAlunoActivity extends AppCompatActivity {
 
             switch (position) {
                 case 0:
-                    return new Tab1Pontuacao(aluno);
+                    return new Tab1MeusDados(aluno);
                 case 1:
                     return new Tab2Classificacao();
                 case 2:
@@ -79,7 +79,7 @@ public class MenuAlunoActivity extends AppCompatActivity {
                 case 0:
                     return "Meus Dados";
                 case 1:
-                    return "Classificação";
+                    return "Ranking";
                 case 2:
                     return "Foto";
             }

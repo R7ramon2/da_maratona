@@ -30,4 +30,5 @@
     <string name="quantidade">Quantidade</string>
     <string name="btn_selecionar_imagem">Selecionar Foto</string>
     <string name="btn_upload_imagem">Upload</string>
+    <string name="btn_tirar_foto">Abrir Câmera</string>
 </resources>

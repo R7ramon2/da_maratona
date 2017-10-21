@@ -20,12 +20,21 @@
         android:text="@string/btn_selecionar_imagem" />
 
     <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_uploadImagem"
+        android:layout_alignParentEnd="true"
+        android:text="@string/btn_tirar_foto" />
+
+    <Button
         android:id="@+id/btn_uploadImagem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="54dp"
         android:text="@string/btn_upload_imagem" />
 
     <ImageView
