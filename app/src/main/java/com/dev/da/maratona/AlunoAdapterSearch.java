@@ -35,7 +35,6 @@ public class AlunoAdapterSearch extends ArrayAdapter<Aluno> {
 
         TextView nome = convertView.findViewById(R.id.nome_item);
         TextView pontos = convertView.findViewById(R.id.matricula_item);
-        TextView pos = convertView.findViewById(R.id.posicao_item);
 
         nome.setText(alunoPosicao.getPrimeiroNome() + " " + alunoPosicao.getUltimoNome());
         pontos.setText(alunoPosicao.getMatricula());

@@ -29,7 +29,6 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
     private Context context;
     private ArrayList<Aluno> lista;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-    private StorageReference storage = storageReference.child("Fotos/" + alunoLogado.getMatricula());
 
     public AlunoAdapter(Context context, ArrayList<Aluno> lista) {
         super(context, 0, lista);
@@ -42,6 +41,7 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Aluno alunoPosicao = this.lista.get(position);
         convertView = LayoutInflater.from(this.context).inflate(R.layout.aluno_item, null);
+        StorageReference storage = storageReference.child("Fotos/" + alunoPosicao.getMatricula());
 
         ImageView foto = convertView.findViewById(R.id.img_aluno);
         TextView nome = convertView.findViewById(R.id.nome_item);
@@ -52,7 +52,11 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
         pontos.setText(String.valueOf(alunoPosicao.getPontuacao()));
         pos.setText(String.valueOf(position + 1) + ".");
 
-        Glide.with(getContext()).using(new FirebaseImageLoader()).load(storage).into(foto);
+        Glide.with(getContext())
+                .using(new FirebaseImageLoader())
+                .load(storage)
+                .error(R.drawable.usuario)
+                .into(foto);
 
         return convertView;
     }
