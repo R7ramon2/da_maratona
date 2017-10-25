@@ -60,9 +60,9 @@ public class MenuAlunoActivity extends AppCompatActivity {
                 case 0:
                     return new Tab1MeusDados(aluno);
                 case 1:
-                    return new Tab2Classificacao();
-                case 2:
                     return new Tab3Foto();
+                case 2:
+                    return new Tab2Ranking();
                 default:
                     return null;
             }
@@ -79,9 +79,9 @@ public class MenuAlunoActivity extends AppCompatActivity {
                 case 0:
                     return "Meus Dados";
                 case 1:
-                    return "Ranking";
-                case 2:
                     return "Foto";
+                case 2:
+                    return "Ranking";
             }
             return null;
         }

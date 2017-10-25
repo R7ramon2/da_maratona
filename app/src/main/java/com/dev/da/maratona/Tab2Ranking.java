@@ -5,9 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +20,7 @@ import java.util.Collections;
  * Created by Tiago Emerenciano on 11/10/2017.
  */
 
-public class Tab2Classificacao extends Fragment {
+public class Tab2Ranking extends Fragment {
 
     private ListView classificao;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
@@ -30,7 +28,7 @@ public class Tab2Classificacao extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab2classificacao, container, false);
+        View rootView = inflater.inflate(R.layout.tab2ranking, container, false);
 
         classificao = rootView.findViewById(R.id.classificacao_lista);
 

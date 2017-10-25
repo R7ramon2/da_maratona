@@ -63,13 +63,14 @@ public class MenuAdminActivity extends AppCompatActivity {
                 case 0:
                     return new Tab1MeusDados(aluno);
                 case 1:
-                    return new Tab2Classificacao();
-                case 2:
                     return new Tab3Foto();
+                case 2:
+                    return new Tab2Ranking();
                 case 3:
                     return new Tab0Administrador();
+                default:
+                    return null;
             }
-            return null;
         }
 
         @Override
@@ -84,9 +85,9 @@ public class MenuAdminActivity extends AppCompatActivity {
                 case 0:
                     return "Meus Dados";
                 case 1:
-                    return "Ranking";
-                case 2:
                     return "Foto";
+                case 2:
+                    return "Ranking";
                 case 3:
                     return "Admin";
             }
