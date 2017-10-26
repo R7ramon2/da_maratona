@@ -28,7 +28,7 @@
     <string name="btn_adicionar_periodo">Add Período</string>
     <string name="para_todos">Para Todos</string>
     <string name="quantidade">Quantidade</string>
-    <string name="btn_selecionar_imagem">Selecionar Foto</string>
+    <string name="btn_selecionar_imagem">Galeria</string>
     <string name="btn_upload_imagem">Upload</string>
-    <string name="btn_tirar_foto">Abrir Câmera</string>
+    <string name="btn_tirar_foto">Câmera</string>
 </resources>

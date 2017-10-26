@@ -1,10 +1,12 @@
 package com.dev.da.maratona;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +35,16 @@ public class Tab2Ranking extends Fragment {
         classificao = rootView.findViewById(R.id.classificacao_lista);
 
         contruirLista();
+
+        classificao.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Aluno aluno = (Aluno) classificao.getItemAtPosition(position);
+                Intent intent = new Intent(getContext(), IndividualActivity.class);
+                intent.putExtra("aluno", aluno);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

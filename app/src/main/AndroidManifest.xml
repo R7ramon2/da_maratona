@@ -3,6 +3,7 @@
     package="com.dev.da.maratona">
 
     <permission android:name="android.permission.CAMERA" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -13,14 +14,15 @@
         android:roundIcon="@drawable/logo"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/NewTheme" >
+        android:theme="@style/NewTheme">
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".LoginActivity" />-->
+        <!-- <activity android:name=".LoginActivity" /> -->
         <activity
             android:name=".MenuAlunoActivity"
             android:label="@string/title_activity_main"
@@ -33,6 +35,7 @@
             android:theme="@style/NewTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".SearchActivity" />
+        <activity android:name=".IndividualActivity"></activity>
     </application>
 
 </manifest>
