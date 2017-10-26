@@ -53,19 +53,13 @@ public class MenuAdminActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            //Pegando dados da Activity LoginActivity.java
-            Intent it = getIntent();
-            Bundle bundle = it.getExtras();
-
-            Aluno aluno;
-            aluno = (Aluno) bundle.getSerializable("usuario_objeto");
             switch (position) {
                 case 0:
-                    return new Tab1MeusDados(aluno);
+                    return new Tab1MeusDados();
                 case 1:
-                    return new Tab3Foto();
-                case 2:
                     return new Tab2Ranking();
+                case 2:
+                    return new Tab3Foto();
                 case 3:
                     return new Tab0Administrador();
                 default:
@@ -85,9 +79,9 @@ public class MenuAdminActivity extends AppCompatActivity {
                 case 0:
                     return "Meus Dados";
                 case 1:
-                    return "Foto";
-                case 2:
                     return "Ranking";
+                case 2:
+                    return "Foto";
                 case 3:
                     return "Admin";
             }

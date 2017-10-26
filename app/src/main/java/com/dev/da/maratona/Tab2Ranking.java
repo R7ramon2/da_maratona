@@ -22,9 +22,9 @@ import java.util.Collections;
 
 public class Tab2Ranking extends Fragment {
 
+    final private ArrayList<Aluno> lista = new ArrayList<Aluno>();
     private ListView classificao;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
-    private ArrayList<Aluno> lista = new ArrayList<Aluno>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,11 +55,7 @@ public class Tab2Ranking extends Fragment {
 
             }
         });
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        contruirLista();
+
     }
 }

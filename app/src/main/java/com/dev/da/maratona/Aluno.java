@@ -15,6 +15,7 @@ public class Aluno implements Serializable {
     private int periodo;
     private int faltas;
     private String admin;
+    private String imagem;
 
     public String getPrimeiroNome() {
         return primeiroNome;
@@ -86,5 +87,13 @@ public class Aluno implements Serializable {
 
     public void setAdmin(String admin) {
         this.admin = admin;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 }

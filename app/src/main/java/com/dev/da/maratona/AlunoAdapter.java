@@ -43,7 +43,7 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Aluno alunoPosicao = this.lista.get(position);
         convertView = LayoutInflater.from(this.context).inflate(R.layout.aluno_item, null);
-        StorageReference storage = storageReference.child("Fotos/" + alunoPosicao.getMatricula());
+        StorageReference storage = storageReference.child("Fotos/" + alunoPosicao.getImagem());
 
         ImageView foto = convertView.findViewById(R.id.img_aluno);
         TextView nome = convertView.findViewById(R.id.nome_item);
@@ -54,12 +54,11 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
         pontos.setText(String.valueOf(alunoPosicao.getPontuacao()));
         pos.setText(String.valueOf(position + 1) + ".");
 
-        Glide.with(getContext())
-                .using(new FirebaseImageLoader())
-                .load(storage)
-                .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
-                .error(R.drawable.usuario)
-                .into(foto);
+
+            Glide.with(getContext())
+                    .using(new FirebaseImageLoader())
+                    .load(storage)
+                    .into(foto);
 
         return convertView;
     }

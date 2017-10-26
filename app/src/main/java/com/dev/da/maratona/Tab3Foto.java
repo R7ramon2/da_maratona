@@ -1,20 +1,14 @@
 package com.dev.da.maratona;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +18,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -31,13 +30,12 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
-import java.util.Scanner;
 
 import static android.app.Activity.RESULT_OK;
 import static com.dev.da.maratona.LoginActivity.alunoLogado;
@@ -59,6 +57,7 @@ public class Tab3Foto extends Fragment {
     private Uri filePath;
     private ImageView foto;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -144,7 +143,7 @@ public class Tab3Foto extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Selecione uma imagem"), PICK_IMAGE_REQUEST);
     }
 
-    public void abrirCamera() {
+    private void abrirCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, PICK_IMAGE_CAMERA);
     }
@@ -154,12 +153,33 @@ public class Tab3Foto extends Fragment {
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("Enviando...");
             progressDialog.show();
-            StorageReference reference = storageReference.child("Fotos/" + alunoLogado.getMatricula());
+            final StorageReference reference = storageReference.child("Fotos/" + alunoLogado.getImagem());
 
-            reference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            if(!alunoLogado.getImagem().equals("0")) {
+                reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Erro ao enviar a imagem.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            alunoLogado.setImagem(gerarMD5() + "_" + alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome());
+
+            //
+
+            StorageReference reference_novo = storageReference.child("Fotos/" + alunoLogado.getImagem());
+
+            reference_novo.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     progressDialog.dismiss();
+                    firebase.child("Alunos/" + alunoLogado.getMatricula() + "/imagem").setValue(alunoLogado.getImagem());
                     Toast.makeText(getContext(), "Foto enviada!", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -180,7 +200,7 @@ public class Tab3Foto extends Fragment {
         }
     }
 
-    public Uri escreveImagens(Bitmap bmp) {
+    private Uri escreveImagens(Bitmap bmp) {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -195,5 +215,17 @@ public class Tab3Foto extends Fragment {
             e.printStackTrace();
         }
         return Uri.parse(nomeArquivo);
+    }
+
+    private String gerarMD5(){
+        Random random = new Random(System.currentTimeMillis());
+        String s = String.valueOf(random);
+        try {
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(s.getBytes(),0,s.length());
+            return new BigInteger(1,m.digest()).toString(16);
+        } catch (NoSuchAlgorithmException a){
+            return "0.png";
+        }
     }
 }
