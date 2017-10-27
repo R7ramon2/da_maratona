@@ -31,4 +31,6 @@
     <string name="btn_selecionar_imagem">Galeria</string>
     <string name="btn_upload_imagem">Upload</string>
     <string name="btn_tirar_foto">Câmera</string>
+    <string name="nome_da_debugs">DeBugs</string>
+    <string name="nome_desenvolvedor">Tiago Emerenciano\nRamon Ranieri</string>
 </resources>

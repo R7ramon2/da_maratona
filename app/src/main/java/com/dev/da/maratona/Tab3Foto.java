@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +26,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -121,7 +118,7 @@ public class Tab3Foto extends Fragment {
     private void abrirCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null)
-        startActivityForResult(intent, PICK_IMAGE_CAMERA);
+            startActivityForResult(intent, PICK_IMAGE_CAMERA);
     }
 
     private void uploadImagem() {
@@ -131,7 +128,7 @@ public class Tab3Foto extends Fragment {
             progressDialog.show();
             final StorageReference reference = storageReference.child("Fotos/" + alunoLogado.getImagem());
 
-            if(!alunoLogado.getImagem().equals("0")) {
+            if (!alunoLogado.getImagem().equals("0")) {
                 reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -174,14 +171,14 @@ public class Tab3Foto extends Fragment {
         }
     }
 
-    private String gerarMD5(){
+    private String gerarMD5() {
         Random random = new Random(System.currentTimeMillis());
         String s = String.valueOf(random);
         try {
             MessageDigest m = MessageDigest.getInstance("MD5");
-            m.update(s.getBytes(),0,s.length());
-            return new BigInteger(1,m.digest()).toString(16);
-        } catch (NoSuchAlgorithmException a){
+            m.update(s.getBytes(), 0, s.length());
+            return new BigInteger(1, m.digest()).toString(16);
+        } catch (NoSuchAlgorithmException a) {
             return "0.png";
         }
     }

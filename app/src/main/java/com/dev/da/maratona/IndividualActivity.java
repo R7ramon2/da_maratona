@@ -32,7 +32,7 @@ public class IndividualActivity extends AppCompatActivity {
         carregarInformacoes(aluno);
     }
 
-    private void carregarInformacoes(Aluno aluno){
+    private void carregarInformacoes(Aluno aluno) {
         StorageReference storage = storageReference.child("Fotos/" + aluno.getImagem());
         Glide.with(getApplicationContext())
                 .using(new FirebaseImageLoader())

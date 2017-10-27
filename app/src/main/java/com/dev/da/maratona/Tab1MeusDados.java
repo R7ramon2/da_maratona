@@ -41,7 +41,7 @@ public class Tab1MeusDados extends Fragment {
 
         foto = rootView.findViewById(R.id.img_aluno);
 
-        firebase.child("Alunos/"+alunoLogado.getMatricula()+"/imagem").addValueEventListener(new ValueEventListener() {
+        firebase.child("Alunos/" + alunoLogado.getMatricula() + "/imagem").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Glide.with(getContext())

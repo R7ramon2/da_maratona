@@ -30,9 +30,9 @@ public class LoginActivity extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        matricula_input = (EditText) findViewById(R.id.login_input);
-        senha_input = (EditText) findViewById(R.id.senha_input);
-        entrar = (Button) findViewById(R.id.btnLogar);
+        matricula_input = findViewById(R.id.login_input);
+        senha_input = findViewById(R.id.senha_input);
+        entrar = findViewById(R.id.btnLogar);
 
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 final String matricula = matricula_input.getText().toString();
-                final String senha = senha_input.getText().toString();
+                final String senha = criptografar(senha_input.getText().toString());
                 logar(matricula, senha);
                 return false;
             }
@@ -98,7 +98,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // procedimento responsável por validar o tipo de usuário (Admin / Aluno)
-    protected boolean isAdmin(String admin) {
+    private boolean isAdmin(String admin) {
         return !admin.equals("0");
+    }
+
+    private String criptografar(String senha) {
+        int i1 = Integer.parseInt(String.valueOf(senha.charAt(0))) * 24 * 3 * 2 * 2;
+        int i2 = Integer.parseInt(String.valueOf(senha.charAt(1))) * 13 * 7 * 2 * 7;
+        int i3 = Integer.parseInt(String.valueOf(senha.charAt(2))) * 69 * 5 * 8 * 11;
+        int i4 = Integer.parseInt(String.valueOf(senha.charAt(3))) * 21 * 7 * 5 * 9;
+        int i5 = Integer.parseInt(String.valueOf(senha.charAt(4))) * 19 * 12 * 7 * 3;
+        int i6 = Integer.parseInt(String.valueOf(senha.charAt(5))) * 97 * 9 * 2;
+        String c1 = Integer.toString(i1);
+        String c2 = Integer.toString(i2);
+        String c3 = Integer.toString(i3);
+        String c4 = Integer.toString(i4);
+        String c5 = Integer.toString(i5);
+        String c6 = Integer.toString(i6);
+        return c1 + c2 + c3 + c4 + c5 + c6;
     }
 }
