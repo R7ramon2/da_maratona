@@ -127,38 +127,45 @@ public class Tab0Administrador extends Fragment {
 
     // Adiciona N pontos à um aluno definido.
     private void adicionarPontos(final String matricula, final int pontos) {
-        firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                long qtdAtual = (long) dataSnapshot.getValue();
-                firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual + pontos);
-            }
+        if(pontos != 0) {
+            firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    long qtdAtual = (long) dataSnapshot.getValue();
+                    firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual + pontos);
+                    Toast.makeText(getContext(), "Pontuação adicionada com sucesso.", Toast.LENGTH_SHORT).show();
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
+        else{
+            Toast.makeText(getContext(), "Digite uma pontuação.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Remove N pontos de um aluno definido.
     private void removerPontos(final String matricula, final int pontos) {
-        firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                long qtdAtual = (long) dataSnapshot.getValue();
-                if (qtdAtual >= pontos) {
-                    firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual - pontos);
-                } else {
-                    Toast.makeText(getContext(), "Aluno com menor quantidade de pontos que o solicitado.", Toast.LENGTH_SHORT).show();
+            firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    long qtdAtual = (long) dataSnapshot.getValue();
+                    if (qtdAtual >= pontos) {
+                        firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual - pontos);
+                        Toast.makeText(getContext(), "Pontuação removida com sucesso.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Aluno com menor quantidade de pontos que o solicitado.", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
     }
 
     // Adiciona uma falta para o aluno definido.
@@ -168,6 +175,7 @@ public class Tab0Administrador extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long qtdAtual = (long) dataSnapshot.getValue();
                 firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual + 1);
+                Toast.makeText(getContext(), "Falta adicionada com sucesso.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -185,6 +193,7 @@ public class Tab0Administrador extends Fragment {
                 long qtdAtual = (long) dataSnapshot.getValue();
                 if (qtdAtual > 0) {
                     firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual - 1);
+                    Toast.makeText(getContext(), "Falta removida com sucesso.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Aluno possui 0 faltas.", Toast.LENGTH_SHORT).show();
                 }
@@ -214,6 +223,7 @@ public class Tab0Administrador extends Fragment {
             }
         };
         firebase.child("Alunos").addListenerForSingleValueEvent(eventListener);
+        Toast.makeText(getContext(), "Período adicionado para todos os alunos.", Toast.LENGTH_SHORT).show();
     }
 
     // Inicia todas as variáveis
