@@ -30,9 +30,9 @@ public class LoginActivity extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        matricula_input = findViewById(R.id.login_input);
-        senha_input = findViewById(R.id.senha_input);
-        entrar = findViewById(R.id.btnLogar);
+        matricula_input = (EditText) findViewById(R.id.login_input);
+        senha_input = (EditText) findViewById(R.id.senha_input);
+        entrar = (Button) findViewById(R.id.btnLogar);
 
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));

@@ -134,6 +134,7 @@ public class Tab0Administrador extends Fragment {
                     long qtdAtual = (long) dataSnapshot.getValue();
                     firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual + pontos);
                     Toast.makeText(getContext(), "Pontuação adicionada com sucesso.", Toast.LENGTH_SHORT).show();
+                    quantidade.setText("");
                 }
 
                 @Override
@@ -155,6 +156,7 @@ public class Tab0Administrador extends Fragment {
                 if (qtdAtual >= pontos) {
                     firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual - pontos);
                     Toast.makeText(getContext(), "Pontuação removida com sucesso.", Toast.LENGTH_SHORT).show();
+                    quantidade.setText("");
                 } else {
                     Toast.makeText(getContext(), "Aluno com menor quantidade de pontos que o solicitado.", Toast.LENGTH_SHORT).show();
                 }
