@@ -14,19 +14,10 @@
         android:id="@+id/btn_selecionarImagem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
         android:layout_marginBottom="44dp"
-        android:text="@string/btn_selecionar_imagem" />
-
-    <Button
-        android:id="@+id/btn_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btn_selecionarImagem"
-        android:layout_alignBottom="@+id/btn_selecionarImagem"
-        android:layout_alignEnd="@+id/imageView"
-        android:text="@string/btn_tirar_foto" />
+        android:text="@string/btn_selecionar_imagem"
+        android:layout_above="@+id/imageView"
+        android:layout_alignStart="@+id/btn_uploadImagem" />
 
     <Button
         android:id="@+id/btn_uploadImagem"

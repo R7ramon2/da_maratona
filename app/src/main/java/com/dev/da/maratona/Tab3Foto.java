@@ -33,6 +33,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
+
 import static com.dev.da.maratona.LoginActivity.alunoLogado;
 
 /*
@@ -42,11 +43,11 @@ import static com.dev.da.maratona.LoginActivity.alunoLogado;
 public class Tab3Foto extends Fragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int PICK_IMAGE_CAMERA = 2;
     private Button selecionarImagem;
     private Button uploadImagem;
     private Button abrirCamera;
     private Uri filePath;
+    private Bitmap bitmap;
     private ImageView foto;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
@@ -58,15 +59,6 @@ public class Tab3Foto extends Fragment {
         selecionarImagem = rootView.findViewById(R.id.btn_selecionarImagem);
         uploadImagem = rootView.findViewById(R.id.btn_uploadImagem);
         foto = rootView.findViewById(R.id.imageView);
-        abrirCamera = rootView.findViewById(R.id.btn_camera);
-        abrirCamera.setVisibility(View.VISIBLE);
-
-        abrirCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                abrirCamera();
-            }
-        });
 
         selecionarImagem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,14 +91,6 @@ public class Tab3Foto extends Fragment {
                         e.printStackTrace();
                     }
                 }
-                break;
-            case PICK_IMAGE_CAMERA:
-                if (resultCode == RESULT_OK) {
-                    filePath = data.getData();
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                    foto.setImageBitmap(bitmap);
-                }
-                break;
         }
     }
 
@@ -115,11 +99,6 @@ public class Tab3Foto extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Selecione uma imagem"), PICK_IMAGE_REQUEST);
     }
 
-    private void abrirCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null)
-            startActivityForResult(intent, PICK_IMAGE_CAMERA);
-    }
 
     private void uploadImagem() {
         if (filePath != null) {
