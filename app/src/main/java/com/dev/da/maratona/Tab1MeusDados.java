@@ -36,7 +36,6 @@ public class Tab1MeusDados extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab1meus_dados, container, false);
 
-        //Demonstração de como se deve pegar os dados da activity do fragment (Aba do menu) --> Inicio
         String nome = alunoLogado.getNome();
 
         foto = rootView.findViewById(R.id.img_aluno);
