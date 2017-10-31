@@ -45,9 +45,7 @@ public class Tab3Foto extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button selecionarImagem;
     private Button uploadImagem;
-    private Button abrirCamera;
     private Uri filePath;
-    private Bitmap bitmap;
     private ImageView foto;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
@@ -98,7 +96,6 @@ public class Tab3Foto extends Fragment {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(Intent.createChooser(intent, "Selecione uma imagem"), PICK_IMAGE_REQUEST);
     }
-
 
     private void uploadImagem() {
         if (filePath != null) {

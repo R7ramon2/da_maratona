@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 final String matricula = matricula_input.getText().toString();
-                final String senha = criptografar(senha_input.getText().toString());
+                final String senha = senha_input.getText().toString();
                 logar(matricula, senha);
                 return false;
             }
@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         } else if (senha.length() < 6) {
             Toast.makeText(LoginActivity.this, "Senha incompleta.", Toast.LENGTH_SHORT).show();
         } else {
+            final String senhaCriptografada = criptografar(senha);
             DatabaseReference ref = firebase.child("Alunos").child(matricula).getRef();
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -67,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         alunoLogado = dataSnapshot.getValue(Aluno.class);
                         String admin_database = dataSnapshot.child("admin").getValue().toString();
                         String senha_database = dataSnapshot.child("senha").getValue().toString();
-                        if (senha_database.equals(senha)) {
+                        if (senha_database.equals(senhaCriptografada)) {
                             if (isAdmin(admin_database)) {
                                 Intent intent = new Intent(LoginActivity.this, MenuAdminActivity.class);
                                 startActivity(intent);
