@@ -133,7 +133,7 @@ public class Tab0Administrador extends Fragment {
     // Adiciona N pontos à um aluno definido.
     private void adicionarPontos(final String matricula, final int pontos) {
         gerarLog("AdicionarPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" adicionou "+ pontos + " pontos ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
+                "Adicionou "+ pontos + " pontos ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         if (pontos != 0) {
             firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -157,7 +157,7 @@ public class Tab0Administrador extends Fragment {
     // Remove N pontos de um aluno definido.
     private void removerPontos(final String matricula, final int pontos) {
         gerarLog("RemoverPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" removeu "+ pontos + " pontos ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
+                "Removeu "+ pontos + " pontos ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -181,7 +181,7 @@ public class Tab0Administrador extends Fragment {
     // Adiciona uma falta para o aluno definido.
     private void adicionarFaltas(final String matricula) {
         gerarLog("AdicionarFaltas",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" Adicionou uma falta ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
+                "Adicionou uma falta ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -199,13 +199,13 @@ public class Tab0Administrador extends Fragment {
 
     // Remove uma falta para o aluno definido.
     private void removerFaltas(final String matricula) {
-        gerarLog("RemoverFaltas",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" removeu uma falta ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long qtdAtual = (long) dataSnapshot.getValue();
                 if (qtdAtual > 0) {
+                    gerarLog("RemoverFaltas",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
+                            "Removeu uma falta ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
                     firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual - 1);
                     Toast.makeText(getContext(), "Falta removida com sucesso.", Toast.LENGTH_SHORT).show();
                 } else {
@@ -223,7 +223,7 @@ public class Tab0Administrador extends Fragment {
     // Adiciona um período para todos os alunos.
     private void adicionarPeriodo() {
         gerarLog("AdicionarPeriodo",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" Incrementou um período para todos os alunos ");
+                "Incrementou um período para todos os alunos ");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
