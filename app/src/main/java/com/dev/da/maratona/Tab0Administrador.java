@@ -156,7 +156,7 @@ public class Tab0Administrador extends Fragment {
 
     // Remove N pontos de um aluno definido.
     private void removerPontos(final String matricula, final int pontos) {
-        gerarLog("AdicionarPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
+        gerarLog("RemoverPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
                 "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" removeu "+ pontos + " pontos ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -180,7 +180,7 @@ public class Tab0Administrador extends Fragment {
 
     // Adiciona uma falta para o aluno definido.
     private void adicionarFaltas(final String matricula) {
-        gerarLog("AdicionarPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
+        gerarLog("AdicionarFaltas",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
                 "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" Adicionou uma falta ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -199,7 +199,7 @@ public class Tab0Administrador extends Fragment {
 
     // Remove uma falta para o aluno definido.
     private void removerFaltas(final String matricula) {
-        gerarLog("AdicionarPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
+        gerarLog("RemoverFaltas",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
                 "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" removeu uma falta ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -222,7 +222,7 @@ public class Tab0Administrador extends Fragment {
 
     // Adiciona um período para todos os alunos.
     private void adicionarPeriodo() {
-        gerarLog("AdicionarPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
+        gerarLog("AdicionarPeriodo",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
                 "O usuário "+ alunoLogado.getPrimeiroNome()+" "+alunoLogado.getUltimoNome()+" Incrementou um período para todos os alunos ");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
