@@ -124,10 +124,20 @@ public class Tab3Foto extends Fragment {
 
             reference_novo.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
                     progressDialog.dismiss();
                     firebase.child("Alunos/" + alunoLogado.getMatricula() + "/imagem").setValue(alunoLogado.getImagem());
                     Toast.makeText(getContext(), "Foto enviada!", Toast.LENGTH_SHORT).show();
+
+                    StorageReference ref = storageReference.child("Fotos/" + alunoLogado.getImagem());
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+                            String generatedFilePath = downloadUri.toString();
+                            firebase.child("Alunos/"+alunoLogado.getMatricula()+"/imagemURL").setValue(generatedFilePath);
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -142,6 +152,7 @@ public class Tab3Foto extends Fragment {
                     progressDialog.setMessage((((int) progress) + "% enviados..."));
                 }
             });
+
         } else {
             Toast.makeText(getContext(), "Selecione uma imagem!", Toast.LENGTH_SHORT).show();
         }
