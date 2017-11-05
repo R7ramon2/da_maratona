@@ -132,16 +132,17 @@ public class Tab0Administrador extends Fragment {
 
     // Adiciona N pontos à um aluno definido.
     private void adicionarPontos(final String matricula, final int pontos) {
-        gerarLog("AdicionarPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "Adicionou "+ pontos + " pontos ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         if (pontos != 0) {
-            firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
+            final DatabaseReference ref = firebase.child("Alunos/" + matricula + "/pontuacao");
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     long qtdAtual = (long) dataSnapshot.getValue();
                     firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual + pontos);
                     Toast.makeText(getContext(), "Pontuação adicionada com sucesso.", Toast.LENGTH_SHORT).show();
                     quantidade.setText("");
+                    gerarLog("AdicionarPontos", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
+                            "Adicionou " + pontos + " pontos ao usuário", matricula);
                 }
 
                 @Override
@@ -156,8 +157,6 @@ public class Tab0Administrador extends Fragment {
 
     // Remove N pontos de um aluno definido.
     private void removerPontos(final String matricula, final int pontos) {
-        gerarLog("RemoverPontos",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "Removeu "+ pontos + " pontos ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         firebase.child("Alunos/" + matricula + "/pontuacao").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -166,6 +165,8 @@ public class Tab0Administrador extends Fragment {
                     firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual - pontos);
                     Toast.makeText(getContext(), "Pontuação removida com sucesso.", Toast.LENGTH_SHORT).show();
                     quantidade.setText("");
+                    gerarLog("RemoverPontos", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
+                            "Removeu " + pontos + " pontos ao usuário", matricula);
                 } else {
                     Toast.makeText(getContext(), "Aluno com menor quantidade de pontos que o solicitado.", Toast.LENGTH_SHORT).show();
                 }
@@ -180,14 +181,14 @@ public class Tab0Administrador extends Fragment {
 
     // Adiciona uma falta para o aluno definido.
     private void adicionarFaltas(final String matricula) {
-        gerarLog("AdicionarFaltas",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "Adicionou uma falta ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
         firebase.child("Alunos/" + matricula + "/faltas").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long qtdAtual = (long) dataSnapshot.getValue();
                 firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual + 1);
                 Toast.makeText(getContext(), "Falta adicionada com sucesso.", Toast.LENGTH_SHORT).show();
+                gerarLog("AdicionarFaltas", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
+                        "Adicionou uma falta ao usuário", matricula);
             }
 
             @Override
@@ -204,9 +205,9 @@ public class Tab0Administrador extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long qtdAtual = (long) dataSnapshot.getValue();
                 if (qtdAtual > 0) {
-                    gerarLog("RemoverFaltas",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                            "Removeu uma falta ao usuário "+ alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome());
                     firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual - 1);
+                    gerarLog("RemoverFaltas", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
+                            "Removeu uma falta ao usuário ", matricula);
                     Toast.makeText(getContext(), "Falta removida com sucesso.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Aluno possui 0 faltas.", Toast.LENGTH_SHORT).show();
@@ -222,8 +223,6 @@ public class Tab0Administrador extends Fragment {
 
     // Adiciona um período para todos os alunos.
     private void adicionarPeriodo() {
-        gerarLog("AdicionarPeriodo",alunoLogado.getPrimeiroNome()+"_"+alunoLogado.getUltimoNome(),getDateTime(),
-                "Incrementou um período para todos os alunos ");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -231,6 +230,8 @@ public class Tab0Administrador extends Fragment {
                     long periodoAnt = (long) ds.child("periodo").getValue();
                     ds.child("periodo").getRef().setValue(periodoAnt + 1);
                 }
+                gerarLog("AdicionarPeriodo", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
+                        "Incrementou um período para todos os alunos ", null);
             }
 
             @Override
@@ -278,13 +279,33 @@ public class Tab0Administrador extends Fragment {
     }
 
     private String getDateTime() {
-        DateFormat df = new SimpleDateFormat("yyyyMMdd  HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
         String sdt = df.format(new Date(System.currentTimeMillis()));
         return sdt;
     }
 
-    void gerarLog(String tipo,String path,String data,String msg){
-        firebase.child("log").child(tipo).child(path).child(data).setValue(msg);
+    void gerarLog(final String tipo, final String path, final String data, final String msg, String matricula) {
+        if (tipo != "AdicionarPeriodo") {
+            if (alunoEncontrado == null) {
+                firebase.child("Alunos").child(matricula).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        alunoEncontrado = dataSnapshot.getValue(Aluno.class);
+                        String new_msg = msg + " " + alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome();
+                        firebase.child("log").child(tipo).child(path).child(data).setValue(new_msg);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        }
+        else {
+            firebase.child("log").child(tipo).child(path).child(data).setValue(msg);
+        }
+
     }
 
     // onResume sobreposto para cada vez que o fragment for aberto, verificar se há uma matrícula a set settada no campo "matrícula".
