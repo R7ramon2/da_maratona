@@ -141,8 +141,15 @@ public class Tab0Administrador extends Fragment {
                     firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual + pontos);
                     Toast.makeText(getContext(), "Pontuação adicionada com sucesso.", Toast.LENGTH_SHORT).show();
                     quantidade.setText("");
-                    gerarLog("AdicionarPontos", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
-                            "Adicionou " + pontos + " pontos ao usuário", matricula);
+
+                    if(alunoEncontrado == null) {
+                        Log log = new Log(matricula, pontos);
+                        log.pontos("Adicionar");
+                    }
+                    else{
+                        Log log = new Log(alunoEncontrado,pontos);
+                        log.pontos("Adicionar");
+                    }
                 }
 
                 @Override
@@ -165,8 +172,15 @@ public class Tab0Administrador extends Fragment {
                     firebase.child("Alunos/" + matricula + "/pontuacao").setValue(qtdAtual - pontos);
                     Toast.makeText(getContext(), "Pontuação removida com sucesso.", Toast.LENGTH_SHORT).show();
                     quantidade.setText("");
-                    gerarLog("RemoverPontos", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
-                            "Removeu " + pontos + " pontos ao usuário", matricula);
+
+                    if(alunoEncontrado == null) {
+                        Log log = new Log(matricula, pontos);
+                        log.pontos("Remover");
+                    }
+                    else{
+                        Log log = new Log(alunoEncontrado,pontos);
+                        log.pontos("Remover");
+                    }
                 } else {
                     Toast.makeText(getContext(), "Aluno com menor quantidade de pontos que o solicitado.", Toast.LENGTH_SHORT).show();
                 }
@@ -187,8 +201,15 @@ public class Tab0Administrador extends Fragment {
                 long qtdAtual = (long) dataSnapshot.getValue();
                 firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual + 1);
                 Toast.makeText(getContext(), "Falta adicionada com sucesso.", Toast.LENGTH_SHORT).show();
-                gerarLog("AdicionarFaltas", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
-                        "Adicionou uma falta ao usuário", matricula);
+
+                if(alunoEncontrado == null) {
+                    Log log = new Log(matricula,0);
+                    log.faltas("Adicionar");
+                }
+                else{
+                    Log log = new Log(alunoEncontrado,0);
+                    log.faltas("Adicionar");
+                }
             }
 
             @Override
@@ -206,8 +227,15 @@ public class Tab0Administrador extends Fragment {
                 long qtdAtual = (long) dataSnapshot.getValue();
                 if (qtdAtual > 0) {
                     firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual - 1);
-                    gerarLog("RemoverFaltas", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
-                            "Removeu uma falta ao usuário ", matricula);
+
+                    if(alunoEncontrado == null) {
+                        Log log = new Log(matricula,0);
+                        log.faltas("Remover");
+                    }
+                    else{
+                        Log log = new Log(alunoEncontrado,0);
+                        log.faltas("Remover");
+                    }
                     Toast.makeText(getContext(), "Falta removida com sucesso.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Aluno possui 0 faltas.", Toast.LENGTH_SHORT).show();
@@ -230,8 +258,9 @@ public class Tab0Administrador extends Fragment {
                     long periodoAnt = (long) ds.child("periodo").getValue();
                     ds.child("periodo").getRef().setValue(periodoAnt + 1);
                 }
-                gerarLog("AdicionarPeriodo", alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome(), getDateTime(),
-                        "Incrementou um período para todos os alunos ", null);
+
+                Log log = new Log();
+                log.periodo();
             }
 
             @Override
@@ -276,36 +305,6 @@ public class Tab0Administrador extends Fragment {
 
         alert = builder.create();
         alert.show();
-    }
-
-    private String getDateTime() {
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
-        String sdt = df.format(new Date(System.currentTimeMillis()));
-        return sdt;
-    }
-
-    void gerarLog(final String tipo, final String path, final String data, final String msg, String matricula) {
-        if (tipo != "AdicionarPeriodo") {
-            if (alunoEncontrado == null) {
-                firebase.child("Alunos").child(matricula).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        alunoEncontrado = dataSnapshot.getValue(Aluno.class);
-                        String new_msg = msg + " " + alunoEncontrado.getPrimeiroNome() + " " + alunoEncontrado.getUltimoNome();
-                        firebase.child("log").child(tipo).child(path).child(data).setValue(new_msg);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        }
-        else {
-            firebase.child("log").child(tipo).child(path).child(data).setValue(msg);
-        }
-
     }
 
     // onResume sobreposto para cada vez que o fragment for aberto, verificar se há uma matrícula a set settada no campo "matrícula".

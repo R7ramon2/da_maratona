@@ -138,6 +138,8 @@ public class Tab3Foto extends Fragment {
                             firebase.child("Alunos/"+alunoLogado.getMatricula()+"/imagemURL").setValue(generatedFilePath);
                         }
                     });
+                    Log log = new Log();
+                    log.imagem();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
