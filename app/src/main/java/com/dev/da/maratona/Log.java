@@ -112,7 +112,7 @@ public class Log {
     }
 
     public void periodo(){
-        firebase.child("AdicionarPeriodo").child(path).child(getDateTime()).setValue("Período adicionado para todos os alunos.");
+        firebase.child("log").child("AdicionarPeriodo").child(path).child(getDateTime()).setValue("Período adicionado para todos os alunos.");
     }
 
     public void imagem(){
