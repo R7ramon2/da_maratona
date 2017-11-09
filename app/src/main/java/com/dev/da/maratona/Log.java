@@ -118,6 +118,4 @@ public class Log {
     public void imagem(){
         firebase.child("log").child("AdicionarImagens").child(path).child(getDateTime()).setValue("Adicionou uma uma nova imagem ao seu perfil");
     }
-
-    //teste
 }
