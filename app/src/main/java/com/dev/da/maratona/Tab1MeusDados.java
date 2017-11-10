@@ -57,12 +57,14 @@ public class Tab1MeusDados extends Fragment {
         firebase.child("Alunos/" + alunoLogado.getMatricula()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Aluno aluno = dataSnapshot.getValue(Aluno.class);
+
                 dados_aluno.setText(
-                        alunoLogado.getNome() + "\n" +
-                                alunoLogado.getMatricula() + "\n" +
-                                alunoLogado.getPontuacao() + " Pontos\n" +
-                                alunoLogado.getPeriodo() + "º Período\n" +
-                                alunoLogado.getFaltas() + " Faltas");
+                        aluno.getNome() + "\n" +
+                                aluno.getMatricula() + "\n" +
+                                aluno.getPontuacao() + " Pontos\n" +
+                                aluno.getPeriodo() + "º Período\n" +
+                                aluno.getFaltas() + " Faltas");
             }
 
             @Override
