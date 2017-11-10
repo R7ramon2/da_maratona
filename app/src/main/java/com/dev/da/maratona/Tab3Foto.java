@@ -115,7 +115,7 @@ public class Tab3Foto extends Fragment {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Erro ao enviar a imagem.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -156,10 +156,10 @@ public class Tab3Foto extends Fragment {
                     progressDialog.setMessage((((int) progress) + "% enviados..."));
                 }
             });
-
         } else {
             Toast.makeText(getContext(), "Selecione uma imagem!", Toast.LENGTH_SHORT).show();
         }
+        salvaLogin(alunoLogado);
     }
 
     private String gerarMD5() {
@@ -184,5 +184,14 @@ public class Tab3Foto extends Fragment {
         } else {
             return null;
         }
+    }
+
+    private void salvaLogin(Aluno aluno) {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(aluno);
+        prefsEditor.putString("alunoLogado", json);
+        prefsEditor.apply();
     }
 }
