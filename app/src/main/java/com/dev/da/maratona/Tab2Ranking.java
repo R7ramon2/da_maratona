@@ -24,7 +24,7 @@ import java.util.Collections;
 
 public class Tab2Ranking extends Fragment {
 
-    final private ArrayList<Aluno> lista = new ArrayList<Aluno>();
+    final private ArrayList<Aluno> lista = new ArrayList<>();
     private ListView classificao;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
 
@@ -67,7 +67,5 @@ public class Tab2Ranking extends Fragment {
 
             }
         });
-
-
     }
 }

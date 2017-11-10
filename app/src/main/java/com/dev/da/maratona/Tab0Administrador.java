@@ -1,5 +1,6 @@
 package com.dev.da.maratona;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -19,11 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static com.dev.da.maratona.LoginActivity.alunoLogado;
 import static com.dev.da.maratona.SearchActivity.alunoEncontrado;
 
 /*
@@ -32,6 +28,7 @@ import static com.dev.da.maratona.SearchActivity.alunoEncontrado;
 
 public class Tab0Administrador extends Fragment {
 
+    public static Context contextOfApplication;
     private EditText matricula;
     private Button addPontuacao;
     private Button remPontuacao;
@@ -43,12 +40,18 @@ public class Tab0Administrador extends Fragment {
     private ImageButton search;
     private AlertDialog alert;
 
+    public static Context getContextOfApplication() {
+        return contextOfApplication;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab0admin, container, false);
 
         findViewById(rootView);
+
+        contextOfApplication = getContext();
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,12 +145,11 @@ public class Tab0Administrador extends Fragment {
                     Toast.makeText(getContext(), "Pontuação adicionada com sucesso.", Toast.LENGTH_SHORT).show();
                     quantidade.setText("");
 
-                    if(alunoEncontrado == null) {
+                    if (alunoEncontrado == null) {
                         Log log = new Log(matricula, pontos);
                         log.pontos("Adicionar");
-                    }
-                    else{
-                        Log log = new Log(alunoEncontrado,pontos);
+                    } else {
+                        Log log = new Log(alunoEncontrado, pontos);
                         log.pontos("Adicionar");
                     }
                 }
@@ -173,12 +175,11 @@ public class Tab0Administrador extends Fragment {
                     Toast.makeText(getContext(), "Pontuação removida com sucesso.", Toast.LENGTH_SHORT).show();
                     quantidade.setText("");
 
-                    if(alunoEncontrado == null) {
+                    if (alunoEncontrado == null) {
                         Log log = new Log(matricula, pontos);
                         log.pontos("Remover");
-                    }
-                    else{
-                        Log log = new Log(alunoEncontrado,pontos);
+                    } else {
+                        Log log = new Log(alunoEncontrado, pontos);
                         log.pontos("Remover");
                     }
                 } else {
@@ -202,12 +203,11 @@ public class Tab0Administrador extends Fragment {
                 firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual + 1);
                 Toast.makeText(getContext(), "Falta adicionada com sucesso.", Toast.LENGTH_SHORT).show();
 
-                if(alunoEncontrado == null) {
-                    Log log = new Log(matricula,0);
+                if (alunoEncontrado == null) {
+                    Log log = new Log(matricula, 0);
                     log.faltas("Adicionar");
-                }
-                else{
-                    Log log = new Log(alunoEncontrado,0);
+                } else {
+                    Log log = new Log(alunoEncontrado, 0);
                     log.faltas("Adicionar");
                 }
             }
@@ -228,12 +228,11 @@ public class Tab0Administrador extends Fragment {
                 if (qtdAtual > 0) {
                     firebase.child("Alunos/" + matricula + "/faltas").setValue(qtdAtual - 1);
 
-                    if(alunoEncontrado == null) {
-                        Log log = new Log(matricula,0);
+                    if (alunoEncontrado == null) {
+                        Log log = new Log(matricula, 0);
                         log.faltas("Remover");
-                    }
-                    else{
-                        Log log = new Log(alunoEncontrado,0);
+                    } else {
+                        Log log = new Log(alunoEncontrado, 0);
                         log.faltas("Remover");
                     }
                     Toast.makeText(getContext(), "Falta removida com sucesso.", Toast.LENGTH_SHORT).show();

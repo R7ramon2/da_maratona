@@ -1,7 +1,9 @@
 package com.dev.da.maratona;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -33,8 +36,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
-
-import static com.dev.da.maratona.LoginActivity.alunoLogado;
 
 /*
  * Created by Tiago Emerenciano on 11/10/2017.
@@ -98,6 +99,7 @@ public class Tab3Foto extends Fragment {
     }
 
     private void uploadImagem() {
+        final Aluno alunoLogado = recuperarLogin();
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("Enviando...");
@@ -135,7 +137,7 @@ public class Tab3Foto extends Fragment {
                         public void onSuccess(Uri uri) {
                             Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
                             String generatedFilePath = downloadUri.toString();
-                            firebase.child("Alunos/"+alunoLogado.getMatricula()+"/imagemURL").setValue(generatedFilePath);
+                            firebase.child("Alunos/" + alunoLogado.getMatricula() + "/imagemURL").setValue(generatedFilePath);
                         }
                     });
                     Log log = new Log();
@@ -169,6 +171,18 @@ public class Tab3Foto extends Fragment {
             return new BigInteger(1, m.digest()).toString(16);
         } catch (NoSuchAlgorithmException a) {
             return "0.png";
+        }
+    }
+
+    private Aluno recuperarLogin() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString("alunoLogado", null);
+        if (json != null) {
+            Gson gson = new Gson();
+            Aluno aluno = gson.fromJson(json, Aluno.class);
+            return aluno;
+        } else {
+            return null;
         }
     }
 }

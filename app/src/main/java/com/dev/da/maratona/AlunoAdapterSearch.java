@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /*
- * Created by Ramon on 16/10/2017.
+ * Created by Tiago on 16/10/2017.
  */
 
 public class AlunoAdapterSearch extends ArrayAdapter<Aluno> {

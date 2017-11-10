@@ -1,6 +1,9 @@
 package com.dev.da.maratona;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,17 +19,34 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
-    static Aluno alunoLogado;
+    private Aluno alunoLogado;
     private EditText matricula_input, senha_input;
     private Button entrar;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
+    private Aluno alunoVerifica;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        alunoVerifica = recuperarLogin();
+        if (alunoVerifica != null) {
+            String admin_database = alunoVerifica.getAdmin();
+            if (isAdmin(admin_database)) {
+                Intent intent = new Intent(LoginActivity.this, MenuAdminActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent aluno = new Intent(LoginActivity.this, MenuAlunoActivity.class);
+                startActivity(aluno);
+                finish();
+            }
+        }
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -65,16 +85,21 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        alunoLogado = dataSnapshot.getValue(Aluno.class);
+                        alunoVerifica = dataSnapshot.getValue(Aluno.class);
                         String admin_database = dataSnapshot.child("admin").getValue().toString();
                         String senha_database = dataSnapshot.child("senha").getValue().toString();
                         if (senha_database.equals(senhaCriptografada)) {
+                            salvaLogin(alunoVerifica);
                             if (isAdmin(admin_database)) {
-                                Intent intent = new Intent(LoginActivity.this, MenuAdminActivity.class);
-                                startActivity(intent);
+                                Intent admin = new Intent(LoginActivity.this, MenuAdminActivity.class);
+                                admin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(admin);
+                                finish();
                             } else {
                                 Intent aluno = new Intent(LoginActivity.this, MenuAlunoActivity.class);
+                                aluno.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(aluno);
+                                finish();
                             }
                             new android.os.Handler().postDelayed(new Runnable() {
                                 public void run() {
@@ -88,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(LoginActivity.this, "Usuário incorreto.", Toast.LENGTH_SHORT).show();
                     }
+
                 }
 
                 @Override
@@ -117,5 +143,26 @@ public class LoginActivity extends AppCompatActivity {
         String c5 = Integer.toString(i5);
         String c6 = Integer.toString(i6);
         return c1 + c2 + c3 + c4 + c5 + c6;
+    }
+
+    private void salvaLogin(Aluno aluno) {
+        SharedPreferences sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(aluno);
+        prefsEditor.putString("alunoLogado", json);
+        prefsEditor.apply();
+    }
+
+    private Aluno recuperarLogin() {
+        SharedPreferences sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString("alunoLogado", null);
+        if (json != null) {
+            Gson gson = new Gson();
+            Aluno aluno = gson.fromJson(json, Aluno.class);
+            return aluno;
+        } else {
+            return null;
+        }
     }
 }
