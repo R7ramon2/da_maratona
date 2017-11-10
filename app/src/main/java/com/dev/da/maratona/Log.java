@@ -1,24 +1,28 @@
 package com.dev.da.maratona;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.dev.da.maratona.LoginActivity.alunoLogado;
-
-/**
+/*
  * Created by ramon on 05/11/2017.
  */
 
 public class Log {
     private String matricula;
     private int pontos;
+    private Context applicationContext = Tab0Administrador.getContextOfApplication();
+    private Aluno alunoLogado = recuperarLogin(applicationContext);
     private String path = alunoLogado.getPrimeiroNome() + "_" + alunoLogado.getUltimoNome();
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
 
@@ -117,5 +121,17 @@ public class Log {
 
     public void imagem(){
         firebase.child("log").child("AdicionarImagens").child(path).child(getDateTime()).setValue("Adicionou uma uma nova imagem ao seu perfil");
+    }
+
+    private Aluno recuperarLogin(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString("alunoLogado", null);
+        if (json != null) {
+            Gson gson = new Gson();
+            Aluno aluno = gson.fromJson(json, Aluno.class);
+            return aluno;
+        } else {
+            return null;
+        }
     }
 }
