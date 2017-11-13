@@ -47,6 +47,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".SetSenhaActivity"></activity>
     </application>
 
 </manifest>

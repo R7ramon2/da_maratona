@@ -8,6 +8,8 @@ import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -50,12 +52,50 @@ public class LoginActivity extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        matricula_input = (EditText) findViewById(R.id.login_input);
-        senha_input = (EditText) findViewById(R.id.senha_input);
-        entrar = (Button) findViewById(R.id.btnLogar);
+        matricula_input = findViewById(R.id.login_input);
+        senha_input = findViewById(R.id.senha_input);
+        entrar = findViewById(R.id.btnLogar);
 
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
+
+        matricula_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focus) {
+                if(!focus){
+                    final String matricula = matricula_input.getText().toString();
+                    firebase.child("Alunos").child(matricula).child("verificado").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            boolean verificado;
+                            if(dataSnapshot.exists()) {
+                                 verificado = (boolean) dataSnapshot.getValue();
+                            }
+                            else {
+                                verificado = false;
+                            }
+                            if(!verificado) {
+                                if (matricula.equals("")) {
+                                    Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
+                                } else if (matricula.length() < 11) {
+                                    Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Intent intent = new Intent(LoginActivity.this, SetSenhaActivity.class);
+                                    intent.putExtra("matricula", matricula);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+        });
 
         entrar.setOnTouchListener(new View.OnTouchListener() {
             @Override

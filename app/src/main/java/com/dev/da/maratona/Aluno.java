@@ -11,11 +11,12 @@ public class Aluno implements Serializable {
     private String nome, primeiroNome, ultimoNome;
     private String matricula;
     private String senha;
+    private String admin;
+    private String imagem;
+    private boolean verificado;
     private int pontuacao;
     private int periodo;
     private int faltas;
-    private String admin;
-    private String imagem;
 
     public String getPrimeiroNome() {
         return primeiroNome;
@@ -95,5 +96,13 @@ public class Aluno implements Serializable {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+    public boolean getVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
     }
 }

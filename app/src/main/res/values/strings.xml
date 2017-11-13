@@ -6,6 +6,7 @@
     <string name="matricula_hint">Matrícula</string>
     <string name="senha_hint">Senha</string>
     <string name="btn_logar">Logar</string>
+    <string name="btn_startSenha">Cadastrar</string>
     <string name="tab1">Minha Pontuação</string>
     <string name="tab2">Classificação</string>
     <string name="tab3">Foto</string>
