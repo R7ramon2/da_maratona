@@ -55,6 +55,8 @@ public class Tab3Foto extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab3foto, container, false);
 
+        final Aluno alunoLogado = recuperarLogin();
+
         selecionarImagem = rootView.findViewById(R.id.btn_selecionarImagem);
         uploadImagem = rootView.findViewById(R.id.btn_uploadImagem);
         foto = rootView.findViewById(R.id.imageView);
@@ -69,7 +71,7 @@ public class Tab3Foto extends Fragment {
         uploadImagem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadImagem();
+                uploadImagem(alunoLogado);
             }
         });
 
@@ -98,8 +100,7 @@ public class Tab3Foto extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Selecione uma imagem"), PICK_IMAGE_REQUEST);
     }
 
-    private void uploadImagem() {
-        final Aluno alunoLogado = recuperarLogin();
+    private void uploadImagem(final Aluno alunoLogado) {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("Enviando...");
@@ -110,7 +111,6 @@ public class Tab3Foto extends Fragment {
                 reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

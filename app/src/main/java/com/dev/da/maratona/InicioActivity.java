@@ -21,6 +21,6 @@ public class InicioActivity extends AppCompatActivity {
                 startActivity(it);
                 finish();
             }
-        }, 2000);
+        }, 800);
     }
 }

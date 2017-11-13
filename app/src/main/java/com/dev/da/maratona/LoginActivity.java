@@ -7,15 +7,12 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,25 +59,26 @@ public class LoginActivity extends AppCompatActivity {
         matricula_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean focus) {
-                if(!focus){
+                if (!focus) {
                     final String matricula = matricula_input.getText().toString();
                     firebase.child("Alunos").child(matricula).child("verificado").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             boolean verificado;
-                            if(dataSnapshot.exists()) {
-                                 verificado = (boolean) dataSnapshot.getValue();
+                            if (dataSnapshot.exists()) {
+                                verificado = (boolean) dataSnapshot.getValue();
+                            } else {
+                                verificado = true;
+                                Toast toast = Toast.makeText(LoginActivity.this, "Matrícula não cadastrada.\nEntre em contato com um integrante do D.A e solicite o cadastro.", Toast.LENGTH_LONG);
+                                toast.setGravity(Gravity.CENTER, Gravity.CENTER, Gravity.END);
+                                toast.show();
                             }
-                            else {
-                                verificado = false;
-                            }
-                            if(!verificado) {
+                            if (!verificado) {
                                 if (matricula.equals("")) {
                                     Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
                                 } else if (matricula.length() < 11) {
                                     Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
+                                } else {
                                     Intent intent = new Intent(LoginActivity.this, SetSenhaActivity.class);
                                     intent.putExtra("matricula", matricula);
                                     startActivity(intent);
@@ -151,14 +149,14 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Senha incorreta.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Usuário incorreto.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Usuário inválido.", Toast.LENGTH_SHORT).show();
                     }
 
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(LoginActivity.this, "Erro com o banco de dados. Favor contactar o desenvolvedor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Erro com o banco de dados. Favor contactar o desenvolvedor", Toast.LENGTH_LONG).show();
                 }
             });
         }
