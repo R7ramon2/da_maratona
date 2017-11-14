@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,9 +70,15 @@ public class LoginActivity extends AppCompatActivity {
                                 verificado = (boolean) dataSnapshot.getValue();
                             } else {
                                 verificado = true;
-                                Toast toast = Toast.makeText(LoginActivity.this, "Matrícula não cadastrada.\nEntre em contato com um integrante do D.A e solicite o cadastro.", Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, Gravity.CENTER, Gravity.END);
-                                toast.show();
+                                if (matricula.equals("")) {
+                                    Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
+                                } else if (matricula.length() < 11) {
+                                    Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast toast = Toast.makeText(LoginActivity.this, "Matrícula não cadastrada.\nEntre em contato com um integrante do D.A e solicite o cadastro.", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, Gravity.END);
+                                    toast.show();
+                                }
                             }
                             if (!verificado) {
                                 if (matricula.equals("")) {
@@ -163,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
         return !admin.equals("0");
     }
 
+    // função responsável por criptografar a senha para validação com o Firebase
     private String criptografar(String senha) {
         int i1 = Integer.parseInt(String.valueOf(senha.charAt(0))) * 24 * 3 * 2 * 2;
         int i2 = Integer.parseInt(String.valueOf(senha.charAt(1))) * 13 * 7 * 2 * 7;
@@ -179,6 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         return c1 + c2 + c3 + c4 + c5 + c6;
     }
 
+    // procedimento para salvar usuário no shared preferences e mantê-lo logado
     private void salvaLogin(Aluno aluno) {
         SharedPreferences sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
@@ -188,6 +197,7 @@ public class LoginActivity extends AppCompatActivity {
         prefsEditor.apply();
     }
 
+    // procedimento para recuperar usuário através do shared preferences
     private Aluno recuperarLogin() {
         SharedPreferences sharedPreferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         String json = sharedPreferences.getString("alunoLogado", null);
