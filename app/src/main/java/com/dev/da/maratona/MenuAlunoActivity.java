@@ -60,7 +60,6 @@ public class MenuAlunoActivity extends AppCompatActivity {
     private void deslogar() {
         limpaPreferences();
         Intent intent = new Intent(MenuAlunoActivity.this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
@@ -70,13 +69,6 @@ public class MenuAlunoActivity extends AppCompatActivity {
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
         prefsEditor.clear();
         prefsEditor.apply();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        getIntent().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        finish();
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -117,4 +109,11 @@ public class MenuAlunoActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
+
 }

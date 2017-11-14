@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             final String senhaCriptografada = criptografar(senha);
             DatabaseReference ref = firebase.child("Alunos").child(matricula).getRef();
-            ref.addValueEventListener(new ValueEventListener() {
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -130,14 +130,10 @@ public class LoginActivity extends AppCompatActivity {
                             salvaLogin(alunoVerifica);
                             if (isAdmin(admin_database)) {
                                 Intent admin = new Intent(LoginActivity.this, MenuAdminActivity.class);
-                                admin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(admin);
-                                finish();
                             } else {
                                 Intent aluno = new Intent(LoginActivity.this, MenuAlunoActivity.class);
-                                aluno.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(aluno);
-                                finish();
                             }
                             new android.os.Handler().postDelayed(new Runnable() {
                                 public void run() {

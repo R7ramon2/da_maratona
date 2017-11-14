@@ -62,9 +62,7 @@ public class MenuAdminActivity extends AppCompatActivity {
     private void deslogar() {
         limpaPreferences();
         Intent intent = new Intent(MenuAdminActivity.this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        finish();
     }
 
     private void limpaPreferences() {
@@ -116,5 +114,9 @@ public class MenuAdminActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+    @Override
+    public void onBackPressed() {
+
     }
 }
