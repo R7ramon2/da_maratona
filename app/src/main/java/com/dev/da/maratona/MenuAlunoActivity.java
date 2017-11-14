@@ -61,7 +61,6 @@ public class MenuAlunoActivity extends AppCompatActivity {
         limpaPreferences();
         Intent intent = new Intent(MenuAlunoActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void limpaPreferences() {
