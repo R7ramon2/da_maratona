@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /*
- * Created by ramon on 05/11/2017.
+ * Created by ramon ranieri on 05/11/2017.
  */
 
 public class Log {
