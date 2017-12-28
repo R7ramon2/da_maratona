@@ -1,6 +1,7 @@
 package com.dev.da.maratona;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,57 +64,48 @@ public class LoginActivity extends AppCompatActivity {
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
 
-        matricula_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean focus) {
-                if (!focus) {
-                    final String matricula = matricula_input.getText().toString();
-                    firebase.child("Alunos").child(matricula).child("verificado").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            boolean verificado;
-                            if (dataSnapshot.exists()) {
-                                verificado = (boolean) dataSnapshot.getValue();
-                            } else {
-                                verificado = true;
-                                if (matricula.equals("")) {
-                                    Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
-                                } else if (matricula.length() < 11) {
-                                    Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast toast = Toast.makeText(LoginActivity.this, "Matrícula não cadastrada.\nEntre em contato com um integrante do D.A e solicite o cadastro.", Toast.LENGTH_LONG);
-                                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, Gravity.END);
-                                    toast.show();
-                                }
-                            }
-                            if (!verificado) {
-                                if (matricula.equals("")) {
-                                    Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
-                                } else if (matricula.length() < 11) {
-                                    Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Intent intent = new Intent(LoginActivity.this, SetSenhaActivity.class);
-                                    intent.putExtra("matricula", matricula);
-                                    startActivity(intent);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-        });
-
         entrar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 final String matricula = matricula_input.getText().toString();
                 final String senha = senha_input.getText().toString();
-                logar(matricula, senha);
+                unicapLogin(matricula,senha);
+                final DatabaseReference ref = firebase;
+
+                new android.os.Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        ref.child("Alunos").child(matricula).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Aluno aluno = dataSnapshot.getValue(Aluno.class);
+                                if(aluno != null) {
+                                    if (aluno.getMatricula() != null) {
+                                        if (aluno.getVerificado() == true) {
+                                            firebase.child("Alunos").child(matricula).child("senha").setValue(criptografar(senha));
+                                            logar(matricula, senha);
+                                            firebase.child("Alunos").child(matricula).child("verificado").setValue(false);
+                                        }
+                                        else{
+                                            Toast.makeText(LoginActivity.this, "Usuário ou senha incorreto", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        ref.child("Alunos").child(matricula).removeValue();
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(LoginActivity.this, "Usuário não cadastrado na maratona, contacte o D.A", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }, 2000);
+
                 return false;
             }
         });
@@ -208,5 +206,40 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             return null;
         }
+    }
+
+    private void unicapLogin(final String matricula, String senha){
+        String[] matr = matricula.split("-");
+        String newMatricula = matr[0];
+        String digito = matr[1];
+        String url = "http://rmlocareceptivos.localhoost.com/da/unicap_login/blank/?matricula="+newMatricula+"&digito="+digito+"&senha="+senha;
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Aguarde...");
+        dialog.show();
+
+        final DatabaseReference ref = firebase;
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("1")){
+                            Toast.makeText(LoginActivity.this,"Sucesso",Toast.LENGTH_SHORT).show();
+                            ref.child("Alunos").child(matricula).child("verificado").setValue(true);
+                        }
+                        else{
+                            Toast.makeText(LoginActivity.this,"Usuário não está cadastrado na biblioteca",Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivity.this,"Talvez você esteja sem internet ou não esteja cadastrado, ente em contato com o D.A",Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
+        queue.add(stringRequest);
     }
 }
