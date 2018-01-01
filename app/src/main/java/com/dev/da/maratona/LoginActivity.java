@@ -64,52 +64,32 @@ public class LoginActivity extends AppCompatActivity {
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
 
+        entrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         entrar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 final String matricula = matricula_input.getText().toString();
                 final String senha = senha_input.getText().toString();
-                unicapLogin(matricula,senha);
-                final DatabaseReference ref = firebase;
-
-                new android.os.Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        ref.child("Alunos").child(matricula).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Aluno aluno = dataSnapshot.getValue(Aluno.class);
-                                if(aluno != null) {
-                                    if (aluno.getMatricula() != null) {
-                                        if (aluno.getVerificado() == true) {
-                                            firebase.child("Alunos").child(matricula).child("senha").setValue(criptografar(senha));
-                                            logar(matricula, senha);
-                                            firebase.child("Alunos").child(matricula).child("verificado").setValue(false);
-                                        }
-                                        else{
-                                            Toast.makeText(LoginActivity.this, "Usuário ou senha incorreto", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } else {
-                                        ref.child("Alunos").child(matricula).removeValue();
-                                    }
-                                }
-                                else {
-                                    Toast.makeText(LoginActivity.this, "Usuário não cadastrado na maratona, contacte o D.A", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-                }, 2000);
-
+                if(matricula.equals("")){
+                    Toast.makeText(LoginActivity.this, "Informe a matricula", Toast.LENGTH_SHORT).show();
+                }
+                else if(senha.equals("")){
+                    Toast.makeText(LoginActivity.this, "Informe a senha", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    unicapLogin(matricula, senha);
+                }
                 return false;
             }
         });
     }
+
 
     // procedimento responsável por verificar a integridade dos dados e logar usuário.
     private void logar(final String matricula, final String senha) {
@@ -150,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Senha incorreta.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Usuário inválido.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Usuário não cadastrado na maratona.", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -208,11 +188,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void unicapLogin(final String matricula, String senha){
+    private void unicapLogin(final String matricula, final String senha){
         String[] matr = matricula.split("-");
         String newMatricula = matr[0];
         String digito = matr[1];
-        String url = "http://rmlocareceptivos.localhoost.com/da/unicap_login/blank/?matricula="+newMatricula+"&digito="+digito+"&senha="+senha;
+        String url = "http://rmlocareceptivos.localhoost.com/da/unicap_login/login_catolica.php?matricula="+newMatricula+"&digito="+digito+"&senha="+senha;
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Aguarde...");
         dialog.show();
@@ -225,18 +205,29 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if(response.equals("1")){
-                            Toast.makeText(LoginActivity.this,"Sucesso",Toast.LENGTH_SHORT).show();
-                            ref.child("Alunos").child(matricula).child("verificado").setValue(true);
+                            logar(matricula, senha);
                         }
-                        else{
-                            Toast.makeText(LoginActivity.this,"Usuário não está cadastrado na biblioteca",Toast.LENGTH_SHORT).show();
+                        else if(response.equals("-1")){
+                            Toast.makeText(LoginActivity.this,"Erro com a internet ou servidor",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(response.equals("0")){
+                            Toast.makeText(LoginActivity.this,"Erro ao logar no app, consulte o D.A",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(response.equals("2")){
+                            Toast.makeText(LoginActivity.this,"Matricula incorreta",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(response.equals("3")){
+                            Toast.makeText(LoginActivity.this,"Erro do digito verificador",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(response.equals("4")){
+                            Toast.makeText(LoginActivity.this,"Senha incorreta",Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this,"Talvez você esteja sem internet ou não esteja cadastrado, ente em contato com o D.A",Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this,"Talvez você esteja sem internet ou não esteja cadastrado, entre em contato com o D.A",Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });
