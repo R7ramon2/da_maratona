@@ -205,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this, "Talvez você esteja sem internet ou não esteja cadastrado, entre em contato com o D.A", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Talvez você esteja sem internet ou não está cadastrado, entre em contato com o D.A", Toast.LENGTH_LONG).show();
                 dialog.dismiss();
 
             }
