@@ -1,6 +1,6 @@
 package com.dev.da.maratona;
 
-import android.annotation.SuppressLint;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -29,13 +28,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
-    private Aluno alunoLogado;
     private EditText matricula_input, senha_input;
     private Button entrar;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
     private Aluno alunoVerifica;
 
-    @SuppressLint("ClickableViewAccessibility")
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,14 +68,20 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 final String matricula = matricula_input.getText().toString();
                 final String senha = senha_input.getText().toString();
-                if(matricula.equals("")){
+                if (matricula.equals("")) {
                     Toast.makeText(LoginActivity.this, "Informe a matricula", Toast.LENGTH_SHORT).show();
                 }
-                else if(senha.equals("")){
+                else if(matricula.length() < 11){
+                    Toast.makeText(LoginActivity.this, "Matricula incompleta", Toast.LENGTH_SHORT).show();
+                }
+                else if (senha.equals("")) {
                     Toast.makeText(LoginActivity.this, "Informe a senha", Toast.LENGTH_SHORT).show();
                 }
+                else if(senha.length() < 6){
+                    Toast.makeText(LoginActivity.this, "Senha incompleta", Toast.LENGTH_SHORT).show();
+                }
                 else {
-                    unicapLogin(matricula, senha);
+                    unicapLogin(matricula,senha);
                 }
                 return false;
             }
@@ -85,55 +90,41 @@ public class LoginActivity extends AppCompatActivity {
 
 
     // procedimento responsável por verificar a integridade dos dados e logar usuário.
-    private void logar(final String matricula, final String senha) {
-        if (matricula.equals("")) {
-            Toast.makeText(LoginActivity.this, "Digite a matrícula.", Toast.LENGTH_SHORT).show();
-        } else if (matricula.length() < 11) {
-            Toast.makeText(LoginActivity.this, "Matrícula incompleta.", Toast.LENGTH_SHORT).show();
-        } else if (senha.equals("")) {
-            Toast.makeText(LoginActivity.this, "Digite a senha.", Toast.LENGTH_SHORT).show();
-        } else if (senha.length() < 6) {
-            Toast.makeText(LoginActivity.this, "Senha incompleta.", Toast.LENGTH_SHORT).show();
-        } else {
-            final String senhaCriptografada = criptografar(senha);
-            DatabaseReference ref = firebase.child("Alunos").child(matricula).getRef();
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        alunoVerifica = dataSnapshot.getValue(Aluno.class);
-                        String admin_database = dataSnapshot.child("admin").getValue().toString();
-                        String senha_database = dataSnapshot.child("senha").getValue().toString();
-                        if (senha_database.equals(senhaCriptografada)) {
-                            salvaLogin(alunoVerifica);
-                            if (isAdmin(admin_database)) {
-                                Intent admin = new Intent(LoginActivity.this, MenuAdminActivity.class);
-                                startActivity(admin);
-                            } else {
-                                Intent aluno = new Intent(LoginActivity.this, MenuAlunoActivity.class);
-                                startActivity(aluno);
-                            }
-                            new android.os.Handler().postDelayed(new Runnable() {
-                                public void run() {
-                                    matricula_input.setText("");
-                                    senha_input.setText("");
-                                }
-                            }, 2000);
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Senha incorreta.", Toast.LENGTH_SHORT).show();
-                        }
+    private void logar(final String matricula) {
+        DatabaseReference ref = firebase.child("Alunos").child(matricula).getRef();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    alunoVerifica = dataSnapshot.getValue(Aluno.class);
+                    String admin_database = dataSnapshot.child("admin").getValue().toString();
+
+                    salvaLogin(alunoVerifica);
+                    if (isAdmin(admin_database)) {
+                        Intent admin = new Intent(LoginActivity.this, MenuAdminActivity.class);
+                        startActivity(admin);
                     } else {
-                        Toast.makeText(LoginActivity.this, "Usuário não cadastrado na maratona.", Toast.LENGTH_SHORT).show();
+                        Intent aluno = new Intent(LoginActivity.this, MenuAlunoActivity.class);
+                        startActivity(aluno);
                     }
+                    new android.os.Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            matricula_input.setText("");
+                            senha_input.setText("");
+                        }
+                    }, 2000);
 
+                } else {
+                    Toast.makeText(LoginActivity.this, "Usuário não cadastrado na maratona.", Toast.LENGTH_SHORT).show();
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(LoginActivity.this, "Erro com o banco de dados. Favor contactar o desenvolvedor", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(LoginActivity.this, "Erro com o banco de dados. Favor contactar o desenvolvedor", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     // procedimento responsável por validar o tipo de usuário (Admin / Aluno)
@@ -181,47 +172,42 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void unicapLogin(final String matricula, final String senha){
+    private void unicapLogin(final String matricula, final String senha) {
         String[] matr = matricula.split("-");
         String newMatricula = matr[0];
         String digito = matr[1];
-        String url = "http://rmlocareceptivos.localhoost.com/da/unicap_login/login_catolica.php?matricula="+newMatricula+"&digito="+digito+"&senha="+senha;
-        final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("Aguarde...");
-        dialog.show();
+        String url = "http://rmlocareceptivos.localhoost.com/da/unicap_login/login_catolica.php?matricula=" + newMatricula + "&digito=" + digito + "&senha=" + senha;
 
-        final DatabaseReference ref = firebase;
+        final ProgressDialog dialog = new ProgressDialog(getApplicationContext());
+        dialog.setMessage("Aguarde ...");
+        dialog.show();
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if(response.equals("1")){
-                            logar(matricula, senha);
-                        }
-                        else if(response.equals("-1")){
-                            Toast.makeText(LoginActivity.this,"Erro com a internet ou servidor",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(response.equals("0")){
-                            Toast.makeText(LoginActivity.this,"Erro ao logar no app, consulte o D.A",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(response.equals("2")){
-                            Toast.makeText(LoginActivity.this,"Matricula incorreta",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(response.equals("3")){
-                            Toast.makeText(LoginActivity.this,"Erro do digito verificador",Toast.LENGTH_SHORT).show();
-                        }
-                        else if(response.equals("4")){
-                            Toast.makeText(LoginActivity.this,"Senha incorreta",Toast.LENGTH_SHORT).show();
+                        if (response.equals("1")) {
+                            logar(matricula);
+                        } else if (response.equals("-1")) {
+                            Toast.makeText(LoginActivity.this, "Erro com a internet ou servidor", Toast.LENGTH_SHORT).show();
+                        } else if (response.equals("0")) {
+                            Toast.makeText(LoginActivity.this, "Erro ao logar no app, consulte o D.A", Toast.LENGTH_SHORT).show();
+                        } else if (response.equals("2")) {
+                            Toast.makeText(LoginActivity.this, "Matricula incorreta", Toast.LENGTH_SHORT).show();
+                        } else if (response.equals("3")) {
+                            Toast.makeText(LoginActivity.this, "Erro do digito verificador", Toast.LENGTH_SHORT).show();
+                        } else if (response.equals("4")) {
+                            Toast.makeText(LoginActivity.this, "Senha incorreta", Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this,"Talvez você esteja sem internet ou não esteja cadastrado, entre em contato com o D.A",Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Talvez você esteja sem internet ou não esteja cadastrado, entre em contato com o D.A", Toast.LENGTH_LONG).show();
                 dialog.dismiss();
+
             }
         });
         queue.add(stringRequest);
