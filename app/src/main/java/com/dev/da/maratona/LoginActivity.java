@@ -64,13 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
 
-        entrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         entrar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
