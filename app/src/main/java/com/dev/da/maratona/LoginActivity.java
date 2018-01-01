@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
         String digito = matr[1];
         String url = "http://rmlocareceptivos.localhoost.com/da/unicap_login/login_catolica.php?matricula=" + newMatricula + "&digito=" + digito + "&senha=" + senha;
 
-        final ProgressDialog dialog = new ProgressDialog(getApplicationContext());
+        final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Aguarde ...");
         dialog.show();
         RequestQueue queue = Volley.newRequestQueue(this);
