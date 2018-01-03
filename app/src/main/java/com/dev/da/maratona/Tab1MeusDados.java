@@ -60,7 +60,8 @@ public class Tab1MeusDados extends Fragment {
                 Aluno aluno = dataSnapshot.getValue(Aluno.class);
 
                 dados_aluno.setText(
-                        aluno.getNome() + "\n" +
+                                aluno.getNome() + "\n" +
+                                aluno.getNick() + "\n" +
                                 aluno.getMatricula() + "\n" +
                                 aluno.getPontuacao() + " Pontos\n" +
                                 aluno.getPeriodo() + "º Período\n" +

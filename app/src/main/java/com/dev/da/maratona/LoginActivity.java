@@ -63,9 +63,9 @@ public class LoginActivity extends AppCompatActivity {
         matricula_input.addTextChangedListener(EditTextMask.mask(matricula_input, EditTextMask.MATRICULA));
         senha_input.addTextChangedListener(EditTextMask.mask(senha_input, EditTextMask.SENHA));
 
-        entrar.setOnTouchListener(new View.OnTouchListener() {
+        entrar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onClick(View view) {
                 final String matricula = matricula_input.getText().toString();
                 final String senha = senha_input.getText().toString();
                 if (matricula.equals("")) {
@@ -83,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     unicapLogin(matricula,senha);
                 }
-                return false;
             }
         });
     }

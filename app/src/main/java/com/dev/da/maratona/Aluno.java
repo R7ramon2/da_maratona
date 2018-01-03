@@ -10,10 +10,18 @@ public class Aluno implements Serializable {
 
     private String nome, primeiroNome, ultimoNome;
     private String matricula;
-    private String senha;
     private String admin;
     private String imagem;
-    private boolean verificado;
+    private String nick;
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
     private int pontuacao;
     private int periodo;
     private int faltas;
@@ -48,14 +56,6 @@ public class Aluno implements Serializable {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public int getPontuacao() {
@@ -98,11 +98,4 @@ public class Aluno implements Serializable {
         this.imagem = imagem;
     }
 
-    public boolean getVerificado() {
-        return verificado;
-    }
-
-    public void setVerificado(boolean verificado) {
-        this.verificado = verificado;
-    }
 }

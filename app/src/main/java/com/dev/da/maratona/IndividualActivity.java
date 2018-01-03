@@ -26,8 +26,8 @@ public class IndividualActivity extends AppCompatActivity {
 
         Aluno aluno = (Aluno) getIntent().getSerializableExtra("aluno");
 
-        informacoes = (TextView) findViewById(R.id.informacoes_individuais);
-        foto = (ImageView) findViewById(R.id.img_aluno);
+        informacoes = findViewById(R.id.informacoes_individuais);
+        foto = findViewById(R.id.img_aluno);
 
         carregarInformacoes(aluno);
     }
@@ -41,6 +41,7 @@ public class IndividualActivity extends AppCompatActivity {
 
         informacoes.setText(
                 aluno.getPrimeiroNome() + " " + aluno.getUltimoNome() + "\n\n" +
+                        aluno.getNick() + "\n" +
                         aluno.getPontuacao() + " Pontos" + "\n" +
                         aluno.getPeriodo() + "º Período"
         );
