@@ -10,12 +10,14 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class IndividualActivity extends AppCompatActivity {
 
     private TextView informacoes;
     private ImageView foto;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    private String url = "http://www.unicap.br/pergamum3/Pergamum/biblioteca_s/meu_pergamum/getImg.php?cod_pessoa=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +34,23 @@ public class IndividualActivity extends AppCompatActivity {
         carregarInformacoes(aluno);
     }
 
+    private String formataMatricula(String matricula){
+        String[] separa = matricula.split("-");
+        return separa[0] + separa[1];
+    }
+
     private void carregarInformacoes(Aluno aluno) {
         StorageReference storage = storageReference.child("Fotos/" + aluno.getImagem());
-        Glide.with(getApplicationContext())
-                .using(new FirebaseImageLoader())
-                .load(storage)
-                .into(foto);
 
+        if(aluno.getImagem().equals("0")){
+            Picasso.with(getApplicationContext()).load(url + formataMatricula(aluno.getMatricula())).error(R.drawable.usuario).into(foto);
+        }
+        else {
+            Glide.with(getApplicationContext())
+                    .using(new FirebaseImageLoader())
+                    .load(storage)
+                    .into(foto);
+        }
         informacoes.setText(
                 aluno.getPrimeiroNome() + " " + aluno.getUltimoNome() + "\n\n" +
                         aluno.getNick() + "\n" +

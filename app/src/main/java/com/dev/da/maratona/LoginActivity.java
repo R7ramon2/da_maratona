@@ -3,12 +3,13 @@ package com.dev.da.maratona;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button entrar;
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
     private Aluno alunoVerifica;
+    private int contLogin = 0;
 
 
 
@@ -175,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
         String[] matr = matricula.split("-");
         String newMatricula = matr[0];
         String digito = matr[1];
-        String url = "http://rmlocareceptivos.localhoost.com/da/unicap_login/login_catolica.php?matricula=" + newMatricula + "&digito=" + digito + "&senha=" + senha;
+        String url = "http://rmlocareceptivos.com.br/da/login_catolica.php?matricula=" + newMatricula + "&digito=" + digito + "&senha=" + senha;
 
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Aguarde ...");
@@ -187,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if (response.equals("1")) {
+                            firebase.child("Alunos").child(matricula).child("contLogin").setValue(0);
                             logar(matricula);
                         } else if (response.equals("-1")) {
                             Toast.makeText(LoginActivity.this, "Erro com a internet ou servidor", Toast.LENGTH_SHORT).show();
@@ -197,7 +200,30 @@ public class LoginActivity extends AppCompatActivity {
                         } else if (response.equals("3")) {
                             Toast.makeText(LoginActivity.this, "Erro do digito verificador", Toast.LENGTH_SHORT).show();
                         } else if (response.equals("4")) {
-                            Toast.makeText(LoginActivity.this, "Senha incorreta", Toast.LENGTH_SHORT).show();
+                            contLogin++;
+                            firebase.child("Alunos").child(matricula).child("contLogin").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    String bancoContLogin = dataSnapshot.getValue().toString();
+                                    Toast.makeText(LoginActivity.this, "Senha incorreta = "+bancoContLogin, Toast.LENGTH_SHORT).show();
+                                    firebase.child("Alunos").child(matricula).child("contLogin").setValue(bancoContLogin);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                            if(contLogin>=3){
+                                Alerta alerta = new Alerta("Cuidado! você já errou "+ contLogin + "vezes","O aplicativo está usando o login da UNICAP e após 5 erros da sua senha irá " +
+                                        "bloquear sua conta no portal do aluno por algumas horas\n\n" +
+                                        "Deseja continuar ? ");
+                                alerta.alertaExibir(LoginActivity.this);
+                            }
+                            Toast.makeText(LoginActivity.this, "Senha incorreta = "+contLogin, Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(LoginActivity.this, "Erro no servidor UNICAP, contacte o D.A.", Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }

@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 /*
  * Created by Tiago Emerenciano on 11/10/2017.
@@ -31,29 +34,34 @@ public class Tab1MeusDados extends Fragment {
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     private DatabaseReference firebase = FirebaseDatabase.getInstance().getReference();
     private ImageView foto;
+    public static Switch switchButton;
+    private String url = "http://www.unicap.br/pergamum3/Pergamum/biblioteca_s/meu_pergamum/getImg.php?cod_pessoa=";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab1meus_dados, container, false);
+        final View rootView = inflater.inflate(R.layout.tab1meus_dados, container, false);
         final Aluno alunoLogado = recuperarLogin();
         final StorageReference storage = storageReference.child("Fotos/" + alunoLogado.getImagem());
 
+        switchButton = rootView.findViewById(R.id.unicap_switch);
         foto = rootView.findViewById(R.id.img_aluno);
         dados_aluno = rootView.findViewById(R.id.informacoes_individuais);
-        firebase.child("Alunos/" + alunoLogado.getMatricula() + "/imagem").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Glide.with(getContext())
-                        .using(new FirebaseImageLoader())
-                        .load(storage)
-                        .into(foto);
-            }
 
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b) {
+                    Picasso.with(rootView.getContext()).load(url + formataMatricula(alunoLogado.getMatricula())).error(R.drawable.usuario).into(foto);
+                }
+                else{
+                    setFotoFirebase(alunoLogado,storage);
+                }
             }
         });
+
+        setFotoFirebase(alunoLogado,storage);
+
         firebase.child("Alunos/" + alunoLogado.getMatricula()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,6 +82,28 @@ public class Tab1MeusDados extends Fragment {
             }
         });
         return rootView;
+    }
+
+    private void setFotoFirebase(Aluno alunoLogado, final StorageReference storage){
+        firebase.child("Alunos/" + alunoLogado.getMatricula() + "/imagem").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Glide.with(getContext())
+                        .using(new FirebaseImageLoader())
+                        .load(storage)
+                        .into(foto);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private String formataMatricula(String matricula){
+        String[] separa = matricula.split("-");
+        return separa[0] + separa[1];
     }
 
     private Aluno recuperarLogin() {
