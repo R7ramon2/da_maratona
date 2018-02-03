@@ -35,8 +35,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:11.6.0'
     compile 'com.firebaseui:firebase-ui-storage:0.6.0'
     compile 'com.google.code.gson:gson:2.8.2'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile project(':volley')
+    compile  project (':volley')
     testCompile 'junit:junit:4.12'
 }
 
